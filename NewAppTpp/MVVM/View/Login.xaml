@@ -1,0 +1,126 @@
+﻿<hc:Window
+    x:Class="NewAppTpp.MVVM.View.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:custompasswordbox="clr-namespace:NewAppTpp.Assets.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
+    Title="Login"
+    Width="400"
+    Height="500"
+    Background="{DynamicResource MainContentBackgroundBrush}"
+    FontFamily="/Assets/Fonts/Poppins/#Poppins"
+    ResizeMode="NoResize"
+    ShowNonClientArea="False"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <hc:Window.DataContext>
+        <vm:LoginViewModel />
+    </hc:Window.DataContext>
+
+    <Grid>
+
+        <!--  loading circle  -->
+        <hc:LoadingCircle Visibility="{Binding IsLoading}" />
+        <!--  end loading circle  -->
+
+        <hc:FlexPanel
+            Margin="0,50"
+            FlexDirection="Column"
+            IsEnabled="{Binding IsWindowActive}"
+            JustifyContent="SpaceAround">
+
+            <!--  logo  -->
+            <Image
+                MaxWidth="250"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/Assets/Images/app-logo.png" />
+            <!--  end logo  -->
+
+            <!--  app version  -->
+            <hc:Divider
+                MaxWidth="250"
+                Margin="0"
+                Content="v1.0.0.0" />
+            <!--  end app version  -->
+
+            <!--  username box  -->
+            <hc:TextBox
+                Width="250"
+                hc:InfoElement.Placeholder="Masukkan Username"
+                hc:InfoElement.Title="Username"
+                Text="{Binding Username, Mode=OneWayToSource}" />
+            <!--  end username box  -->
+
+            <!--  password box  -->
+            <custompasswordbox:BindablePasswordBox Password="{Binding Password, Mode=OneWayToSource}" />
+            <!--  end password box  -->
+
+            <!--  error text  -->
+            <hc:SimpleText
+                MinHeight="40"
+                MaxWidth="250"
+                Foreground="{DynamicResource DangerBrush}"
+                Text="{Binding ErrorMessage}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <!--  end error text  -->
+
+            <!--  button container  -->
+            <hc:FlexPanel
+                Width="250"
+                HorizontalAlignment="Center"
+                FlexDirection="Row"
+                JustifyContent="SpaceBetween">
+
+                <!--  login button  -->
+                <Button
+                    Width="100"
+                    Height="30"
+                    hc:BorderElement.CornerRadius="15"
+                    Command="{Binding LoginCommand}"
+                    Content="Login"
+                    Cursor="Hand"
+                    IsDefault="True"
+                    Style="{DynamicResource ButtonPrimary}" />
+                <!--  end login button  -->
+
+                <hc:Divider
+                    MaxHeight="16"
+                    LineStroke="{DynamicResource DarkPrimaryBrush}"
+                    LineStrokeThickness="2"
+                    Orientation="Vertical" />
+
+                <!--  exit button  -->
+                <Button
+                    Width="100"
+                    Height="30"
+                    hc:BorderElement.CornerRadius="15"
+                    Command="{Binding ExitCommand}"
+                    Content="Keluar"
+                    Cursor="Hand"
+                    Style="{DynamicResource ButtonDanger}" />
+                <!--  end exit button  -->
+
+            </hc:FlexPanel>
+            <!--  end button container  -->
+
+            <!--  info text  -->
+            <hc:SimpleText
+                MaxWidth="250"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="Lupa Password ? Silahkan menghubungi Admin di 089686312111 (Whatsapp)"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <!--  end info text  -->
+
+        </hc:FlexPanel>
+
+    </Grid>
+
+
+</hc:Window>

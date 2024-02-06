@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "VCyZ6rndbNLIhmQe83rVsjl4DhKss+wAIL4LJJs3MmC3vP+1pDS8lk7SpPXhMF5zk2GVtITof8gb+pfsIh4b7A==",
+  "success": true,
+  "projectFilePath": "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ekabu\\.nuget\\packages\\handycontrols\\3.5.0\\handycontrols.3.5.0.nupkg.sha512",
+    "C:\\Users\\ekabu\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "C:\\Users\\ekabu\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512"
+  ],
+  "logs": []
+}
