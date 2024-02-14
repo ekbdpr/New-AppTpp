@@ -121,7 +121,7 @@ namespace NewAppTpp.MVVM.ViewModel
             }
         }
 
-        private bool IsValidUser() => UserAccessService.Instance.GetUserLoginData(Username, Password) && UserAccessService.Instance.GetUserPhoto(Username);
+        private bool IsValidUser() => UserAccessService.Instance.GetUserLoginData(Username, Password);
 
         private static void OpenMainWindow()
         {

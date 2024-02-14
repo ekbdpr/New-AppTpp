@@ -1,5 +1,4 @@
-﻿using HandyControl.Controls;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NewAppTpp.MVVM.View
 {

@@ -1,12 +1,242 @@
-﻿<Window x:Class="NewAppTpp.MVVM.View.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+﻿<Window
+    x:Class="NewAppTpp.MVVM.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
+    Title="MainWindow"
+    Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+    Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+    Background="{DynamicResource MainContentBackgroundBrush}"
+    FontFamily="/Assets/Fonts/Poppins/#Poppins"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="7"
+            UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <hc:Row>
+
+        <!--  sidebar  -->
+        <hc:Col Span="5">
+
+            <hc:FlexPanel
+                Background="{DynamicResource PrimaryBrush}"
+                Effect="{DynamicResource EffectShadow5}"
+                FlexDirection="Column">
+
+                <!--  logo  -->
+                <Image
+                    MaxWidth="250"
+                    Margin="20,50"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Source="/Assets/Images/dash-logo.png" />
+                <!--  end logo  -->
+
+                <!--  sidemenu  -->
+                <hc:SideMenu
+                    Margin="7,0,-1,0"
+                    hc:FlexPanel.FlexGrow="1"
+                    BorderBrush="{DynamicResource MainContentBackgroundBrush}"
+                    BorderThickness="0"
+                    SideBrush="{DynamicResource PrimaryBrush}">
+
+                    <!--  home button  -->
+                    <hc:SideMenuItem
+                        Command="{Binding HomeCommand}"
+                        Cursor="Hand"
+                        Header="Home"
+                        IsSelected="True">
+
+                        <hc:SideMenuItem.Icon>
+                            <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#x1F3E0;" />
+                        </hc:SideMenuItem.Icon>
+
+                    </hc:SideMenuItem>
+                    <!--  end home button  -->
+
+                    <!--  data pegawai button  -->
+                    <hc:SideMenuItem Cursor="Hand" Header="Data Pegawai">
+
+                        <hc:SideMenuItem.Icon>
+                            <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#128119;" />
+                        </hc:SideMenuItem.Icon>
+
+                        <!--  input batch button  -->
+                        <hc:SideMenuItem
+                            Padding="10,0,0,0"
+                            Command="{Binding InputDataBatchCommand}"
+                            Cursor="Hand"
+                            Header="Input Data Batch">
+
+                            <hc:SideMenuItem.Icon>
+                                <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#8284;" />
+                            </hc:SideMenuItem.Icon>
+
+                        </hc:SideMenuItem>
+                        <!--  end input batch button  -->
+
+                        <!--  kelola data button  -->
+                        <hc:SideMenuItem
+                            Padding="10,0,0,0"
+                            Command="{Binding KelolaDataCommand}"
+                            Cursor="Hand"
+                            Header="Kelola Data Pegawai">
+
+                            <hc:SideMenuItem.Icon>
+                                <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#8284;" />
+                            </hc:SideMenuItem.Icon>
+
+                        </hc:SideMenuItem>
+                        <!--  end kelola data button  -->
+
+                    </hc:SideMenuItem>
+                    <!--  end data pegawai button  -->
+
+                    <!--  lihat laporan button  -->
+                    <hc:SideMenuItem
+                        Command="{Binding LihatLaporanCommand}"
+                        Cursor="Hand"
+                        Header="Lihat Laporan">
+
+                        <hc:SideMenuItem.Icon>
+                            <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#128196;" />
+                        </hc:SideMenuItem.Icon>
+
+                    </hc:SideMenuItem>
+                    <!--  end lihat laporan button  -->
+
+                    <!--  bendahara button  -->
+                    <hc:SideMenuItem
+                        Command="{Binding BendaharaCommand}"
+                        Cursor="Hand"
+                        Header="Bendahara Pengeluaran">
+
+                        <hc:SideMenuItem.Icon>
+                            <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#128181;" />
+                        </hc:SideMenuItem.Icon>
+
+                    </hc:SideMenuItem>
+                    <!--  end bendahara button  -->
+
+                    <!--  user manager button  -->
+                    <hc:SideMenuItem
+                        Command="{Binding UserManagerCommand}"
+                        Cursor="Hand"
+                        Header="User Manager">
+
+                        <hc:SideMenuItem.Icon>
+                            <TextBlock Style="{DynamicResource TextBlockFabricIcons}" Text="&#127899;" />
+                        </hc:SideMenuItem.Icon>
+
+                    </hc:SideMenuItem>
+                    <!--  end user manager button  -->
+
+                </hc:SideMenu>
+                <!--  end sidemenu  -->
+
+            </hc:FlexPanel>
+
+        </hc:Col>
+        <!--  end sidebar  -->
+
+        <!--  main panel  -->
+        <hc:Col Span="19">
+
+            <hc:FlexPanel hc:FlexPanel.FlexGrow="1" FlexDirection="Column">
+
+                <!--  header  -->
+                <hc:Row>
+
+                    <hc:Col>
+
+                        <hc:FlexPanel Margin="10" JustifyContent="FlexEnd">
+
+                            <!--  profile name  -->
+                            <hc:SimpleText
+                                Margin="6,0"
+                                VerticalAlignment="Center"
+                                FontSize="{DynamicResource SubHeadFontSize}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                Text="&#128100; " />
+                            <!--  end profile name  -->
+
+                            <!--  profile name  -->
+                            <hc:SimpleText
+                                VerticalAlignment="Center"
+                                FontSize="{DynamicResource SubHeadFontSize}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                Text="{Binding Nama}" />
+                            <!--  end profile name  -->
+
+                            <!--  privilege  -->
+                            <hc:SimpleText
+                                Margin="6,0"
+                                VerticalAlignment="Center"
+                                FontSize="{DynamicResource SubHeadFontSize}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                Text="{Binding Privilege, StringFormat='({0})'}" />
+                            <!--  end privilege  -->
+
+                            <!--  minimize button  -->
+                            <Button
+                                Margin="10,0,0,0"
+                                hc:BorderElement.CornerRadius="15"
+                                Click="BtnMinimize_Click"
+                                Content="_"
+                                Cursor="Hand"
+                                Style="{DynamicResource ButtonInfo}" />
+                            <!--  end minimize button  -->
+
+                            <!--  maximize button  -->
+                            <Button
+                                Margin="10,0,0,0"
+                                hc:BorderElement.CornerRadius="15"
+                                Click="BtnClose_Click"
+                                Content="X"
+                                Cursor="Hand"
+                                Style="{DynamicResource ButtonDanger}" />
+                            <!--  end maximize button  -->
+
+                        </hc:FlexPanel>
+
+                    </hc:Col>
+
+                </hc:Row>
+                <!--  end header  -->
+
+                <!--  main content  -->
+                <hc:Row>
+
+                    <!--  content  -->
+                    <hc:Col>
+                        <hc:TransitioningContentControl Content="{Binding CurrentView}" TransitionMode="Right2LeftWithFade" />
+                    </hc:Col>
+                    <!--  end content  -->
+
+                </hc:Row>
+                <!--  end main content  -->
+
+            </hc:FlexPanel>
+
+        </hc:Col>
+        <!--  end main panel  -->
+
+    </hc:Row>
+
 </Window>

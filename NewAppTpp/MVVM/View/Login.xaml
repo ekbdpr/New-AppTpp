@@ -22,7 +22,7 @@
         <vm:LoginViewModel />
     </hc:Window.DataContext>
 
-    <Grid>
+    <hc:SimplePanel>
 
         <!--  loading circle  -->
         <hc:LoadingCircle Visibility="{Binding IsLoading}" />
@@ -120,7 +120,7 @@
 
         </hc:FlexPanel>
 
-    </Grid>
+    </hc:SimplePanel>
 
 
 </hc:Window>

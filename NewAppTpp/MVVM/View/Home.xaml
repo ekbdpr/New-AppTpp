@@ -1,0 +1,50 @@
+﻿<UserControl
+    x:Class="NewAppTpp.MVVM.View.Home"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <hc:FlexPanel Margin="20" FlexDirection="Column">
+
+        <!--  welcome  -->
+        <hc:SimpleText
+            FontSize="{DynamicResource HeadFontSize}"
+            Foreground="{DynamicResource PrimaryTextBrush}"
+            Text="Selamat Datang," />
+
+        <hc:SimpleText
+            FontSize="{DynamicResource LargeFontSize}"
+            Foreground="{DynamicResource PrimaryTextBrush}"
+            Text="Eka Budhi Prasetya !" />
+        <!--  end welcome  -->
+
+        <!--  information  -->
+        <hc:SimpleText
+            Margin="0,40,0,0"
+            FontSize="{DynamicResource HeadFontSize}"
+            Foreground="{DynamicResource PrimaryTextBrush}"
+            Text="Silahkan memilih menu pada sidebar disamping." />
+
+        <hc:SimpleText
+            Margin="0,10,0,0"
+            FontSize="{DynamicResource HeadFontSize}"
+            Foreground="{DynamicResource PrimaryTextBrush}"
+            Text="Jika mengalami kendala silahkan lakukan relogin akun anda. Jika masih mengalami kendala yang sama, silahkan menghubungi admin !"
+            TextWrapping="Wrap" />
+        <!--  end information  -->
+
+        <!--  home image  -->
+        <Image
+            MaxWidth="500"
+            Margin="0,50,0,0"
+            RenderOptions.BitmapScalingMode="HighQuality"
+            Source="/Assets/Images/welcome.png" />
+        <!--  end home image  -->
+
+    </hc:FlexPanel>
+
+</UserControl>

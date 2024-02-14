@@ -21,6 +21,8 @@
   <ItemGroup>
     <None Remove="Assets\Fonts\Poppins\Poppins-Regular.ttf" />
     <None Remove="Assets\Images\app-logo.png" />
+    <None Remove="Assets\Images\dash-logo.png" />
+    <None Remove="Assets\Images\welcome.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HandyControls" Version="3.5.0" />
@@ -29,5 +31,7 @@
   <ItemGroup>
     <Resource Include="Assets\Fonts\Poppins\Poppins-Regular.ttf" />
     <Resource Include="Assets\Images\app-logo.png" />
+    <Resource Include="Assets\Images\dash-logo.png" />
+    <Resource Include="Assets\Images\welcome.png" />
   </ItemGroup>
 </Project>

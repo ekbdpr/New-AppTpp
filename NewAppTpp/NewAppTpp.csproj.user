@@ -10,10 +10,31 @@
     <Compile Update="Assets\CustomControls\BindablePasswordBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\AddUserPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Bendahara.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Home.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\InputDataBatch.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\KelolaData.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\LihatLaporan.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\Login.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\MainWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserManager.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -21,10 +42,31 @@
     <Page Update="Assets\CustomControls\BindablePasswordBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\AddUserPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\Bendahara.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\Home.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\InputDataBatch.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\KelolaData.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\LihatLaporan.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\Login.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserManager.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Properties\DesignTimeResources.xaml">

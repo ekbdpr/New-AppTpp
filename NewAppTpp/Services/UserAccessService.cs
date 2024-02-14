@@ -26,7 +26,6 @@ namespace NewAppTpp.Services
         public string CurrentNama { get; private set; }
         public string CurrentUsername { get; private set; }
         public string CurrentPrivilege { get; private set; }
-        public byte[] CurrentProfileImage { get; private set; }
 
         private static MySqlConnection OpenConnection()
         {
@@ -71,62 +70,6 @@ namespace NewAppTpp.Services
             {
                 MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }
-        }
-
-        public bool GetUserPhoto(string Username)
-        {
-            using var connection = OpenConnection();
-
-            try
-            {
-                string query = "SELECT Profile_Image FROM user_photo WHERE Username = @Username";
-
-                using MySqlCommand command = new(query, connection);
-
-                command.Parameters.AddWithValue("@Username", Username);
-
-                using MySqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    CurrentProfileImage = !string.IsNullOrEmpty(reader["Profile_image"].ToString()) ? (byte[])reader["Profile_image"] : null;
-                }
-
-                return reader.HasRows;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-        }
-
-        public void SaveImageToDB(OpenFileDialog openFileDialog)
-        {
-            using var connection = OpenConnection();
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    string filePath = openFileDialog.FileName;
-                    byte[] fileBytes = File.ReadAllBytes(filePath);
-
-                    string query = "UPDATE user_photo SET Profile_Image = @FileData WHERE Nip = @Nip;";
-
-                    using var command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@FileData", fileBytes);
-                    command.Parameters.AddWithValue("@Nip", CurrentNip);
-
-                    command.ExecuteNonQuery();
-
-                    Instance.CurrentProfileImage = fileBytes;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
         }
 

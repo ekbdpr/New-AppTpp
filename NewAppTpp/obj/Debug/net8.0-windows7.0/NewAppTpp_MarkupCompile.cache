@@ -10,11 +10,11 @@ none
 false
 TRACE;Core;DEBUG;NET;NET8_0;NETCOREAPP
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\App.xaml
-4-306282948
+11-582623243
 
-858338760
-201-1328576012
-Assets\CustomControls\BindablePasswordBox.xaml;MVVM\View\Login.xaml;MVVM\View\MainWindow.xaml;Properties\DesignTimeResources.xaml;
+171143135899
+201417960310
+Assets\CustomControls\BindablePasswordBox.xaml;MVVM\View\AddUserPopup.xaml;MVVM\View\Bendahara.xaml;MVVM\View\Home.xaml;MVVM\View\InputDataBatch.xaml;MVVM\View\KelolaData.xaml;MVVM\View\LihatLaporan.xaml;MVVM\View\Login.xaml;MVVM\View\MainWindow.xaml;MVVM\View\UserManager.xaml;Properties\DesignTimeResources.xaml;
 
 False
 
