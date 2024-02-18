@@ -10,14 +10,72 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <hc:FlexPanel JustifyContent="Center">
+    <hc:SimpleStackPanel Margin="20">
 
+        <!--  title  -->
         <hc:SimpleText
             VerticalAlignment="Center"
             FontSize="{DynamicResource LargeFontSize}"
             Foreground="{DynamicResource PrimaryTextBrush}"
             Text="Input Data Batch" />
+        <!--  end title  -->
 
-    </hc:FlexPanel>
+        <!--  divider  -->
+        <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
+        <!--  end divider  -->
+
+        <!--  months filter  -->
+        <hc:SimpleStackPanel Orientation="Horizontal">
+
+            <!--  month  -->
+            <hc:ComboBox
+                Width="150"
+                hc:InfoElement.Placeholder="Pilih Bulan"
+                hc:InfoElement.Title="Bulan"
+                Cursor="Hand"
+                SelectedValue="{Binding Bulan, Mode=TwoWay}"
+                SelectedValuePath="Content">
+
+                <ComboBoxItem Content="Januari" />
+                <ComboBoxItem Content="Februari" />
+                <ComboBoxItem Content="Maret" />
+                <ComboBoxItem Content="April" />
+                <ComboBoxItem Content="Mei" />
+                <ComboBoxItem Content="Juni" />
+                <ComboBoxItem Content="Juli" />
+                <ComboBoxItem Content="Agustus" />
+                <ComboBoxItem Content="September" />
+                <ComboBoxItem Content="Oktober" />
+                <ComboBoxItem Content="November" />
+                <ComboBoxItem Content="Desember" />
+
+            </hc:ComboBox>
+            <!--  end month  -->
+
+            <!--  year  -->
+            <hc:ComboBox
+                Width="150"
+                Margin="20,0,0,0"
+                hc:InfoElement.Placeholder="Pilih Tahun"
+                hc:InfoElement.Title="Tahun"
+                Cursor="Hand"
+                SelectedValue="{Binding Tahun, Mode=TwoWay}"
+                SelectedValuePath="Content">
+
+                <ComboBoxItem Content="2024" />
+                <ComboBoxItem Content="2025" />
+                <ComboBoxItem Content="2026" />
+                <ComboBoxItem Content="2027" />
+                <ComboBoxItem Content="2028" />
+                <ComboBoxItem Content="2029" />
+                <ComboBoxItem Content="2030" />
+
+            </hc:ComboBox>
+            <!--  end year  -->
+
+        </hc:SimpleStackPanel>
+        <!--  end months filter  -->
+
+    </hc:SimpleStackPanel>
 
 </UserControl>

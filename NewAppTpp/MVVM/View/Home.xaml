@@ -6,7 +6,12 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
     mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:HomeViewModel />
+    </UserControl.DataContext>
 
     <hc:FlexPanel Margin="20" FlexDirection="Column">
 
@@ -19,7 +24,7 @@
         <hc:SimpleText
             FontSize="{DynamicResource LargeFontSize}"
             Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="Eka Budhi Prasetya !" />
+            Text="{Binding Nama, StringFormat='{}{0} !'}" />
         <!--  end welcome  -->
 
         <!--  information  -->
