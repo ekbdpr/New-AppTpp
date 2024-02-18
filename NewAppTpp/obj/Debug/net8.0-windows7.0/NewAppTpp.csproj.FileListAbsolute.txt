@@ -11,7 +11,9 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\Properties\DesignTimeResources.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\App.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\Assets\CustomControls\BindablePasswordBox.g.cs
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\AddUserAccessPopup.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\Bendahara.g.cs
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditUserAccessPopup.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\Home.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\InputDataBatch.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\KelolaData.g.cs
@@ -24,7 +26,9 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\NewAppTpp_MarkupCompile.cache
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\NewAppTpp_MarkupCompile.lref
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\Assets\CustomControls\BindablePasswordBox.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\AddUserAccessPopup.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\Bendahara.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditUserAccessPopup.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\Home.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\InputDataBatch.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\KelolaData.baml
@@ -44,5 +48,5 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\NewAppTpp.pdb
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\NewAppTpp.genruntimeconfig.cache
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\ref\NewAppTpp.dll
-D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\AddUserPopup.g.cs
-D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\AddUserPopup.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\ConfirmationPopup.g.cs
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\ConfirmationPopup.baml

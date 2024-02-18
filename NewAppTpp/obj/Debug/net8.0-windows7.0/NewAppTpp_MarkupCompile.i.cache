@@ -1,7 +1,7 @@
 ﻿NewAppTpp
 1.0.0.0
 
-winexe
+exe
 C#
 .cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\
@@ -10,11 +10,11 @@ none
 false
 TRACE;Core;DEBUG;NET;NET8_0;NETCOREAPP
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\App.xaml
-11-582623243
+13-1289593985
 
-211229595540
+26150182342
 201417960310
-Assets\CustomControls\BindablePasswordBox.xaml;MVVM\View\AddUserPopup.xaml;MVVM\View\Bendahara.xaml;MVVM\View\Home.xaml;MVVM\View\InputDataBatch.xaml;MVVM\View\KelolaData.xaml;MVVM\View\LihatLaporan.xaml;MVVM\View\Login.xaml;MVVM\View\MainWindow.xaml;MVVM\View\UserManager.xaml;Properties\DesignTimeResources.xaml;
+Assets\CustomControls\BindablePasswordBox.xaml;MVVM\View\AddUserAccessPopup.xaml;MVVM\View\Bendahara.xaml;MVVM\View\ConfirmationPopup.xaml;MVVM\View\EditUserAccessPopup.xaml;MVVM\View\Home.xaml;MVVM\View\InputDataBatch.xaml;MVVM\View\KelolaData.xaml;MVVM\View\LihatLaporan.xaml;MVVM\View\Login.xaml;MVVM\View\MainWindow.xaml;MVVM\View\UserManager.xaml;Properties\DesignTimeResources.xaml;
 
 False
 

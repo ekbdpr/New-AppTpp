@@ -2,8 +2,6 @@
 using System.Windows;
 using System;
 using System.Configuration;
-using Microsoft.Win32;
-using System.IO;
 using System.Collections.Generic;
 using NewAppTpp.MVVM.Model;
 
@@ -118,8 +116,6 @@ namespace NewAppTpp.Services
                 string query = "INSERT INTO daftar_user (Nip, Nama, Jabatan, Username, Password, Privilege) " +
                                "VALUES (@Nip, @Nama, @Jabatan, @Username, @Password, @Privilege)";
 
-                string secondQuery = "INSERT INTO user_photo (Nip, Username) VALUES (@Nip, @Username)";
-
                 using MySqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@Nip", nip);
                 command.Parameters.AddWithValue("@Nama", nama);
@@ -128,12 +124,7 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Password", password);
                 command.Parameters.AddWithValue("@Privilege", privilege);
 
-                using MySqlCommand secondCommand = new(secondQuery, connection);
-                secondCommand.Parameters.AddWithValue("@Nip", nip);
-                secondCommand.Parameters.AddWithValue("@Username", username);
-
                 command.ExecuteNonQuery();
-                secondCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -141,30 +132,22 @@ namespace NewAppTpp.Services
             }
         }
 
-        public static void UpdateUser(string nip, string nama, string jabatan, string username, string password, string privilege)
+        public static void UpdateUser(string nip, string nama, string jabatan, string username, string privilege)
         {
             using var connection = OpenConnection();
 
             try
             {
-                string query = "UPDATE daftar_user SET Nama = @Nama, Jabatan = @Jabatan, Username = @Username, Password = @Password, Privilege = @Privilege " +
+                string query = "UPDATE daftar_user SET Nama = @Nama, Jabatan = @Jabatan, Username = @Username, Privilege = @Privilege " +
                                "WHERE Nip = @Nip;";
-
-                string secondQuery = "UPDATE user_photo SET Username = @Username WHERE Nip = @Nip";
 
                 using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Nama", nama);
                 command.Parameters.AddWithValue("@Jabatan", jabatan);
                 command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@Password", password);
                 command.Parameters.AddWithValue("@Privilege", privilege);
                 command.Parameters.AddWithValue("@Nip", nip);
 
-                using var secondCommand = new MySqlCommand(secondQuery, connection);
-                secondCommand.Parameters.AddWithValue("@Username", username);
-                secondCommand.Parameters.AddWithValue("@Nip", nip);
-
-                secondCommand.ExecuteNonQuery();
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -181,15 +164,9 @@ namespace NewAppTpp.Services
             {
                 string query = "DELETE FROM daftar_user WHERE Username = @Username";
 
-                string secondQuery = "DELETE FROM user_photo WHERE Username = @Username";
-
                 using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Username", username);
 
-                using var secondCommand = new MySqlCommand(secondQuery, connection);
-                secondCommand.Parameters.AddWithValue("@Username", username);
-
-                secondCommand.ExecuteNonQuery();
                 command.ExecuteNonQuery();
             }
             catch ( Exception ex )

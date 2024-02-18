@@ -1,8 +1,10 @@
 ﻿
 
 FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\Assets\CustomControls\BindablePasswordBox.xaml;;
-FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\AddUserPopup.xaml;;
+FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\AddUserAccessPopup.xaml;;
 FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\Bendahara.xaml;;
+FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\ConfirmationPopup.xaml;;
+FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\EditUserAccessPopup.xaml;;
 FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\Home.xaml;;
 FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\InputDataBatch.xaml;;
 FD:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\MVVM\View\KelolaData.xaml;;
