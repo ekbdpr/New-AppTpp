@@ -41,7 +41,7 @@
 
         <!--  tambah user button  -->
         <Button
-            Margin="0,40,0,0"
+            Margin="0,5,0,0"
             HorizontalAlignment="Left"
             hc:BorderElement.CornerRadius="10"
             Command="{Binding AddUserCommand}"
@@ -49,6 +49,21 @@
             Cursor="Hand"
             Style="{DynamicResource ButtonPrimary}" />
         <!--  end tambah user button  -->
+
+        <!--  searchbox  -->
+        <hc:SearchBar
+            Width="380"
+            Margin="0,5"
+            HorizontalAlignment="Right"
+            hc:InfoElement.Placeholder="Cari User"
+            hc:InfoElement.Title="Pencarian : "
+            hc:InfoElement.TitlePlacement="Left"
+            hc:InfoElement.TitleWidth="80"
+            Command="{Binding SearchUserCommand}"
+            IsRealTime="True"
+            Style="{DynamicResource SearchBarExtend}"
+            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--  end searchbox  -->
 
         <!--  user table  -->
         <DataGrid
@@ -129,6 +144,17 @@
 
         </DataGrid>
         <!--  end user table  -->
+
+        <!--  pagination  -->
+        <hc:Pagination
+            Margin="0,5"
+            HorizontalAlignment="Right"
+            Cursor="Hand"
+            DataCountPerPage="10"
+            MaxPageCount="{Binding MaxPageCount}"
+            MaxPageInterval="2"
+            PageIndex="{Binding PageIndex, Mode=TwoWay}" />
+        <!--  end pagination  -->
 
     </hc:SimpleStackPanel>
 

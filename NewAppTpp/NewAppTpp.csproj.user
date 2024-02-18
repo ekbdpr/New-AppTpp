@@ -48,6 +48,9 @@
     <Page Update="Assets\CustomControls\BindablePasswordBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Assets\Styles\MessageBoxCustomStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\AddUserAccessPopup.xaml">
       <SubType>Designer</SubType>
     </Page>

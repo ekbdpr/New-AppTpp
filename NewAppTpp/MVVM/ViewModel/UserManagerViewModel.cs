@@ -1,14 +1,14 @@
 ﻿using AppTpp.Services;
 using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
-using HandyControl.Tools.Extension;
 using NewAppTpp.MVVM.Model;
 using NewAppTpp.MVVM.View;
 using NewAppTpp.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -33,23 +33,57 @@ namespace NewAppTpp.MVVM.ViewModel
             get { return _selectedUser; }
             set
             {
-                _selectedUser = value;
-
                 if (value != null)
                 {
+                    _selectedUser = value;
+
                     UserAccessMiddlewareService.Instance.SelectedNip = value.Nip;
                     UserAccessMiddlewareService.Instance.SelectedNama = value.Nama;
                     UserAccessMiddlewareService.Instance.SelectedJabatan = value.Jabatan;
                     UserAccessMiddlewareService.Instance.SelectedUsername = value.Username;
                     UserAccessMiddlewareService.Instance.SelectedPrivilege = value.Privilege;
-                }
 
-                RaisePropertyChanged(nameof(SelectedUser));
+                    RaisePropertyChanged(nameof(SelectedUser));
+                }
+            }
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                _searchText = value;
+                RaisePropertyChanged(nameof(SearchText));
+            }
+        }
+
+        private int _maxPageCount;
+        public int MaxPageCount
+        {
+            get { return _maxPageCount; }
+            set { _maxPageCount = value; RaisePropertyChanged(nameof(MaxPageCount)); }
+        }
+
+        private int _pageIndex;
+        public int PageIndex
+        {
+            get { return _pageIndex; }
+            set
+            {
+                if (value != _pageIndex)
+                {
+                    _pageIndex = value;
+                    InitializeUserAccessData();
+                    RaisePropertyChanged(nameof(PageIndex));
+                }
             }
         }
 
         private Dialog UserAccessDialog { get; set; } = new Dialog();
 
+        public ICommand SearchUserCommand { get; }
         public ICommand AddUserCommand { get; }
         public ICommand EditUserCommand { get; }
         public ICommand DeleteUserCommand { get; }
@@ -58,6 +92,7 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             InitializeUserAccessData();
 
+            SearchUserCommand = new SimpleRelayCommand(new Action(SearchUser));
             AddUserCommand = new SimpleRelayCommand(new Action(OpenAddUserPopup));
             EditUserCommand = new SimpleRelayCommand(new Action(OpenEditUserPopup));
             DeleteUserCommand = new SimpleRelayCommand(new Action(OpenConfirmationPopup));
@@ -68,7 +103,28 @@ namespace NewAppTpp.MVVM.ViewModel
 
         private void InitializeUserAccessData()
         {
-            UserAccessModelCollection = new ObservableCollection<UserAccessModel>(UserAccessService.GetAllUsers());
+            try
+            {
+                var userData = UserAccessService.GetAllUsers();
+                var filteredUserData = string.IsNullOrEmpty(SearchText) ? userData : userData.Where(data => data.Nama.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || data.Nip.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+                MaxPageCount = Convert.ToInt32(Math.Ceiling((double)filteredUserData.Count() / 10.0));
+                var startIndex = (PageIndex - 1) * 10;
+
+                UserAccessModelCollection = new ObservableCollection<UserAccessModel>(filteredUserData.Skip(startIndex).Take(10));
+            }
+            catch (Exception ex)
+            {
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
+            }
         }
 
         private void SaveChangedData()
@@ -77,16 +133,21 @@ namespace NewAppTpp.MVVM.ViewModel
             UserAccessDialog.Close();
         }
 
+        private void SearchUser()
+        {
+            InitializeUserAccessData();
+        }
+
+        private void OpenAddUserPopup() => UserAccessDialog = Dialog.Show(new AddUserAccessPopup());
+
+        private void OpenEditUserPopup() => UserAccessDialog = Dialog.Show(new EditUserAccessPopup());
+
         private void DeleteUser()
         {
             UserAccessService.DeleteUser(SelectedUser.Username);
             InitializeUserAccessData();
             UserAccessDialog.Close();
         }
-
-        private void OpenAddUserPopup() => UserAccessDialog = Dialog.Show(new AddUserAccessPopup());
-
-        private void OpenEditUserPopup() => UserAccessDialog = Dialog.Show(new EditUserAccessPopup());
 
         private void OpenConfirmationPopup()
         {

@@ -4,6 +4,7 @@ using System;
 using System.Configuration;
 using System.Collections.Generic;
 using NewAppTpp.MVVM.Model;
+using HandyControl.Data;
 
 namespace NewAppTpp.Services
 {
@@ -66,7 +67,16 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
+
                 return false;
             }
         }
@@ -102,7 +112,16 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
+
                 return [];
             }
         }
@@ -128,7 +147,15 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
             }
         }
 
@@ -152,7 +179,15 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
             }
         }
 
@@ -171,7 +206,15 @@ namespace NewAppTpp.Services
             }
             catch ( Exception ex )
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
             }
         }
     }

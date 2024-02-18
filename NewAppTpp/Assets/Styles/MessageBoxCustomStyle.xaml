@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <Style
+        x:Key="MessageBoxCustom"
+        BasedOn="{StaticResource {x:Type hc:MessageBox}}"
+        TargetType="hc:MessageBox" />
+
+</ResourceDictionary>

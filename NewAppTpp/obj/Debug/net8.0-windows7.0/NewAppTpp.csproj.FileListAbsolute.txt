@@ -50,3 +50,4 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\ref\NewAppTpp.dll
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\ConfirmationPopup.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\ConfirmationPopup.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\Assets\Styles\MessageBoxCustomStyle.baml
