@@ -6,9 +6,14 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:InputDataBatchViewModel />
+    </UserControl.DataContext>
 
     <hc:SimpleStackPanel Margin="20">
 
@@ -75,6 +80,78 @@
 
         </hc:SimpleStackPanel>
         <!--  end months filter  -->
+
+        <!--  choose file container  -->
+        <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+            <!--  choose file button  -->
+            <Button
+                Width="120"
+                Height="30"
+                hc:BorderElement.CornerRadius="15"
+                Command="{Binding ChooseFileCommand}"
+                Content="Pilih File"
+                Cursor="Hand" />
+            <!--  end choose file button  -->
+
+            <!--  file name  -->
+            <hc:SimpleText
+                Margin="20,0,0,0"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="{Binding FileName}" />
+            <!--  end file name  -->
+
+        </hc:SimpleStackPanel>
+        <!--  end choose file container  -->
+
+        <!--  import file container  -->
+        <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+            <!--  import file button  -->
+            <Button
+                Width="120"
+                Height="30"
+                hc:BorderElement.CornerRadius="15"
+                Command="{Binding ImportFileCommand}"
+                Content="Import"
+                Cursor="Hand"
+                Style="{DynamicResource ButtonPrimary}" />
+            <!--  end import file button  -->
+
+            <!--  indicators container  -->
+            <hc:SimplePanel Margin="20,0,0,0">
+
+                <!--  import indicator  -->
+                <hc:LoadingCircle Height="30" Visibility="{Binding LoadingIndicatorVisibility}" />
+                <!--  end import indicator  -->
+
+                <!--  success indicator  -->
+                <hc:SimpleText
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="{DynamicResource HeadFontSize}"
+                    Foreground="{DynamicResource SuccessBrush}"
+                    Text="&#9989;"
+                    Visibility="{Binding SuccessIndicatorVisibility}" />
+                <!--  end success indicator  -->
+
+                <!--  failed indicator  -->
+                <hc:SimpleText
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="{DynamicResource HeadFontSize}"
+                    FontWeight="ExtraBold"
+                    Foreground="{DynamicResource DangerBrush}"
+                    Text="&#10060;"
+                    Visibility="{Binding ErrorIndicatorVisibility}" />
+                <!--  end failed indicator  -->
+
+            </hc:SimplePanel>
+            <!--  end indicators container  -->
+
+        </hc:SimpleStackPanel>
+        <!--  end import file container  -->
 
     </hc:SimpleStackPanel>
 

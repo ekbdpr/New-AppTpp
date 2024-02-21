@@ -39,31 +39,35 @@
         <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
         <!--  end divider  -->
 
-        <!--  tambah user button  -->
-        <Button
-            Margin="0,5,0,0"
-            HorizontalAlignment="Left"
-            hc:BorderElement.CornerRadius="10"
-            Command="{Binding AddUserCommand}"
-            Content="Tambah User"
-            Cursor="Hand"
-            Style="{DynamicResource ButtonPrimary}" />
-        <!--  end tambah user button  -->
+        <hc:SimplePanel Margin="0,5">
 
-        <!--  searchbox  -->
-        <hc:SearchBar
-            Width="380"
-            Margin="0,5"
-            HorizontalAlignment="Right"
-            hc:InfoElement.Placeholder="Cari User"
-            hc:InfoElement.Title="Pencarian : "
-            hc:InfoElement.TitlePlacement="Left"
-            hc:InfoElement.TitleWidth="80"
-            Command="{Binding SearchUserCommand}"
-            IsRealTime="True"
-            Style="{DynamicResource SearchBarExtend}"
-            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <!--  end searchbox  -->
+            <!--  tambah user button  -->
+            <Button
+                Width="120"
+                Height="30"
+                HorizontalAlignment="Left"
+                hc:BorderElement.CornerRadius="10"
+                Command="{Binding AddUserCommand}"
+                Content="Tambah User"
+                Cursor="Hand"
+                Style="{DynamicResource ButtonPrimary}" />
+            <!--  end tambah user button  -->
+
+            <!--  searchbox  -->
+            <hc:SearchBar
+                Width="380"
+                HorizontalAlignment="Right"
+                hc:InfoElement.Placeholder="Cari User"
+                hc:InfoElement.Title="Pencarian : "
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="80"
+                Command="{Binding SearchUserCommand}"
+                IsRealTime="True"
+                Style="{DynamicResource SearchBarExtend}"
+                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <!--  end searchbox  -->
+
+        </hc:SimplePanel>
 
         <!--  user table  -->
         <DataGrid

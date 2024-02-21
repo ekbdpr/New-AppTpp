@@ -31,7 +31,6 @@ namespace NewAppTpp.MVVM.ViewModel
         private void UpdateConfirmationPopupUid(string uid)
         {
             ConfirmationPopupUid = uid;
-            ConfirmationPopupMiddlewareService.ConfirmationPopupUidChanged -= UpdateConfirmationPopupUid;
         }
 
         private void YesButton()
@@ -41,11 +40,29 @@ namespace NewAppTpp.MVVM.ViewModel
                 UserAccessMiddlewareService.Instance.InvokeDataDeletion();
                 return;
             }
+
+            if (ConfirmationPopupUid == "DuplicateFileConfirmation")
+            {
+                ConfirmationPopupMiddlewareService.Instance.ConfirmationState = true;
+                ConfirmationPopupMiddlewareService.Instance.InvokeCloseConfirmationPopup();
+                return;
+            }
         }
 
         private void NoButton()
         {
-            UserAccessMiddlewareService.Instance.InvokeDataSaved();
+            if (ConfirmationPopupUid == "DeleteConfirmation")
+            {
+                UserAccessMiddlewareService.Instance.InvokeDataSaved();
+                return;
+            }
+
+            if (ConfirmationPopupUid == "DuplicateFileConfirmation")
+            {
+                ConfirmationPopupMiddlewareService.Instance.ConfirmationState = false;
+                ConfirmationPopupMiddlewareService.Instance.InvokeCloseConfirmationPopup();
+                return;
+            }
         }
     }
 }
