@@ -1,8 +1,10 @@
 ﻿using AppTpp.Services;
+using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
+using NewAppTpp.MVVM.View;
 using NewAppTpp.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -35,8 +37,8 @@ namespace NewAppTpp.MVVM.ViewModel
             set { _tahun = value; RaisePropertyChanged(nameof(Tahun)); }
         }
 
-        private UserAccessModel _selectedPegawai;
-        public UserAccessModel SelectedPegawai
+        private DataPegawaiModel _selectedPegawai;
+        public DataPegawaiModel SelectedPegawai
         {
             get { return _selectedPegawai; }
             set
@@ -44,12 +46,6 @@ namespace NewAppTpp.MVVM.ViewModel
                 if (value != null)
                 {
                     _selectedPegawai = value;
-
-                    UserAccessMiddlewareService.Instance.SelectedNip = value.Nip;
-                    UserAccessMiddlewareService.Instance.SelectedNama = value.Nama;
-                    UserAccessMiddlewareService.Instance.SelectedJabatan = value.Jabatan;
-                    UserAccessMiddlewareService.Instance.SelectedUsername = value.Username;
-                    UserAccessMiddlewareService.Instance.SelectedPrivilege = value.Privilege;
 
                     RaisePropertyChanged(nameof(SelectedPegawai));
                 }
@@ -89,14 +85,23 @@ namespace NewAppTpp.MVVM.ViewModel
             }
         }
 
+        private Dialog DataPegawaiDialog { get; set; } = new Dialog();
+
         public ICommand SubmitSearchCommand { get; }
         public ICommand SearchPegawaiCommand { get; }
+        public ICommand EditPegawaiCommand { get; }
+        public ICommand DeletePegawaiCommand { get; }
 
-        public KelolaDataViewModel() 
+        public KelolaDataViewModel()
         {
             SubmitSearchCommand = new SimpleRelayCommand(new Action(InitializeDataPegawaiList));
             SearchPegawaiCommand = new SimpleRelayCommand(new Action(SearchPegawai));
 
+            EditPegawaiCommand = new SimpleRelayCommand(new Action(EditPegawai));
+            DeletePegawaiCommand = new SimpleRelayCommand(new Action(OpenConfirmationPopup));
+
+            KelolaDataMiddlewareService.Instance.OnDataSaved += InitializeDataPegawaiList;
+            KelolaDataMiddlewareService.Instance.OnDeleteData += DeletePegawai;
         }
 
         private void InitializeDataPegawaiList()
@@ -125,6 +130,10 @@ namespace NewAppTpp.MVVM.ViewModel
                     StyleKey = "MessageBoxCustom"
                 });
             }
+            finally
+            {
+                DataPegawaiDialog.Close();
+            }
         }
 
         private string ConvertBulanToNumber()
@@ -152,5 +161,22 @@ namespace NewAppTpp.MVVM.ViewModel
             InitializeDataPegawaiList();
         }
 
+        private void EditPegawai()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DeletePegawai()
+        {
+            DataPegawaiService.DeletePegawai(_selectedPegawai.Nip);
+            InitializeDataPegawaiList();
+            DataPegawaiDialog.Close();
+        }
+
+        private void OpenConfirmationPopup()
+        {
+            DataPegawaiDialog = Dialog.Show(new ConfirmationPopup($"Anda yakin akan menghapus {_selectedPegawai.Nip} - {_selectedPegawai.Nama} dari data pegawai ?"));
+            ConfirmationPopupMiddlewareService.NotifyConfirmationPopupUidChanged("DeletePegawaiConfirmation");
+        }
     }
 }

@@ -152,7 +152,7 @@ namespace NewAppTpp.MVVM.ViewModel
         private void OpenConfirmationPopup()
         {
             UserAccessDialog = Dialog.Show(new ConfirmationPopup($"Anda yakin akan menghapus {_selectedUser.Nip} - {_selectedUser.Nama} dari sistem ?"));
-            ConfirmationPopupMiddlewareService.NotifyConfirmationPopupUidChanged("DeleteConfirmation");
+            ConfirmationPopupMiddlewareService.NotifyConfirmationPopupUidChanged("DeleteUserConfirmation");
         }
     }
 }

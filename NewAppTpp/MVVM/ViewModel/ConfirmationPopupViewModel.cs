@@ -35,7 +35,7 @@ namespace NewAppTpp.MVVM.ViewModel
 
         private void YesButton()
         {
-            if (ConfirmationPopupUid == "DeleteConfirmation")
+            if (ConfirmationPopupUid == "DeleteUserConfirmation")
             {
                 UserAccessMiddlewareService.Instance.InvokeDataDeletion();
                 return;
@@ -47,11 +47,17 @@ namespace NewAppTpp.MVVM.ViewModel
                 ConfirmationPopupMiddlewareService.Instance.InvokeCloseConfirmationPopup();
                 return;
             }
+
+            if (ConfirmationPopupUid == "DeletePegawaiConfirmation")
+            {
+                KelolaDataMiddlewareService.Instance.InvokeDataDeletion();
+                return;
+            }
         }
 
         private void NoButton()
         {
-            if (ConfirmationPopupUid == "DeleteConfirmation")
+            if (ConfirmationPopupUid == "DeleteUserConfirmation")
             {
                 UserAccessMiddlewareService.Instance.InvokeDataSaved();
                 return;
@@ -61,6 +67,12 @@ namespace NewAppTpp.MVVM.ViewModel
             {
                 ConfirmationPopupMiddlewareService.Instance.ConfirmationState = false;
                 ConfirmationPopupMiddlewareService.Instance.InvokeCloseConfirmationPopup();
+                return;
+            }
+
+            if (ConfirmationPopupUid == "DeletePegawaiConfirmation")
+            {
+                KelolaDataMiddlewareService.Instance.InvokeDataSaved();
                 return;
             }
         }
