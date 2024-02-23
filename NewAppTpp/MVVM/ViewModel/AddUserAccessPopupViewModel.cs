@@ -1,4 +1,5 @@
 ﻿using AppTpp.Services;
+using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
@@ -76,7 +77,15 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
             }
         }
     }

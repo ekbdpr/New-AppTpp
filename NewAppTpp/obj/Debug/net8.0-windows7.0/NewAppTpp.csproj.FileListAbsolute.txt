@@ -1,5 +1,4 @@
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.exe
-D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.dll.config
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.deps.json
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.runtimeconfig.json
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.dll
@@ -65,3 +64,8 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\Microsoft.IO.RecyclableMemoryStream.dll
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\System.Security.Cryptography.Pkcs.dll
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\NewAppTpp.dll.config
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditPegawaiPopup.g.cs
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditPegawaiPopup.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditBendahara.g.cs
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditBendahara.baml

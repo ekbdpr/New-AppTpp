@@ -47,6 +47,16 @@ namespace NewAppTpp.MVVM.ViewModel
                 {
                     _selectedPegawai = value;
 
+                    KelolaDataMiddlewareService.Instance.SelectedNip = _selectedPegawai.Nip;
+                    KelolaDataMiddlewareService.Instance.SelectedNama = _selectedPegawai.Nama;
+                    KelolaDataMiddlewareService.Instance.SelectedKdSatker = _selectedPegawai.KdSatker;
+                    KelolaDataMiddlewareService.Instance.SelectedNorek = _selectedPegawai.Norek;
+                    KelolaDataMiddlewareService.Instance.SelectedKdPangkat = _selectedPegawai.KdPangkat;
+                    KelolaDataMiddlewareService.Instance.SelectedPiwp = _selectedPegawai.Piwp;
+                    KelolaDataMiddlewareService.Instance.SelectedNmSkpd = _selectedPegawai.NmSkpd;
+                    KelolaDataMiddlewareService.Instance.SelectedPaguTppBk = _selectedPegawai.PaguTppBk;
+                    KelolaDataMiddlewareService.Instance.SelectedPaguTppKk = _selectedPegawai.PaguTppKk;
+
                     RaisePropertyChanged(nameof(SelectedPegawai));
                 }
             }
@@ -161,10 +171,7 @@ namespace NewAppTpp.MVVM.ViewModel
             InitializeDataPegawaiList();
         }
 
-        private void EditPegawai()
-        {
-            throw new NotImplementedException();
-        }
+        private void EditPegawai() => DataPegawaiDialog = Dialog.Show(new EditPegawaiPopup());
 
         private void DeletePegawai()
         {

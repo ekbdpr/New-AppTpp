@@ -9,7 +9,7 @@
         public string KdSatker { get; set; }
         public string Norek { get; set; }
         public string KdPangkat { get; set; }
-        public string Piwp { get; set; }
+        public int Piwp { get; set; }
         public string NmSkpd { get; set; }
         public int PaguTppBk { get; set; }
         public int PaguTppKk { get; set; }

@@ -58,13 +58,13 @@ namespace NewAppTpp.Services
                     string kdSatker = worksheet.Cells[row, 3].Value?.ToString()?.Trim() ?? string.Empty;
                     string norek = worksheet.Cells[row, 4].Value?.ToString()?.Trim() ?? string.Empty;
                     string kdPangkat = worksheet.Cells[row, 5].Value?.ToString()?.Trim() ?? string.Empty;
-                    string piwp1 = worksheet.Cells[row, 6].Value?.ToString()?.Trim() ?? string.Empty;
+                    string piwp = worksheet.Cells[row, 6].Value?.ToString()?.Trim() ?? string.Empty;
                     string nmSkpd = worksheet.Cells[row, 7].Value?.ToString()?.Trim() ?? string.Empty;
                     string paguTppBk = worksheet.Cells[row, 8].Value?.ToString()?.Trim() ?? string.Empty;
                     string paguTppKk = worksheet.Cells[row, 9].Value?.ToString()?.Trim() ?? string.Empty;
 
-                    string query = $"INSERT INTO data_pegawai (Tgl_Gaji, Nip, Nama, Kd_Satker, Norek, Kd_Pangkat, Piwp1, Nm_Skpd, Pagu_TppBk, Pagu_TppKk) " +
-                                    "VALUES (@Tgl_Gaji, @Nip, @Nama, @Kd_Satker, @Norek, @Kd_Pangkat, @Piwp1, @Nm_Skpd, @Pagu_TppBk, @Pagu_TppKk);";
+                    string query = $"INSERT INTO data_pegawai (Tgl_Gaji, Nip, Nama, Kd_Satker, Norek, Kd_Pangkat, Piwp, Nm_Skpd, Pagu_TppBk, Pagu_TppKk) " +
+                                    "VALUES (@Tgl_Gaji, @Nip, @Nama, @Kd_Satker, @Norek, @Kd_Pangkat, @Piwp, @Nm_Skpd, @Pagu_TppBk, @Pagu_TppKk);";
 
                     if (IsNipExist(nip, tglGaji))
                     {
@@ -79,7 +79,7 @@ namespace NewAppTpp.Services
                     command.Parameters.AddWithValue("@Kd_Satker", kdSatker);
                     command.Parameters.AddWithValue("@Norek", norek);
                     command.Parameters.AddWithValue("@Kd_Pangkat", kdPangkat);
-                    command.Parameters.AddWithValue("@Piwp1", piwp1);
+                    command.Parameters.AddWithValue("@Piwp", piwp);
                     command.Parameters.AddWithValue("@Nm_Skpd", nmSkpd);
                     command.Parameters.AddWithValue("@Pagu_TppBk", paguTppBk);
                     command.Parameters.AddWithValue("@Pagu_TppKk", paguTppKk);
@@ -139,7 +139,7 @@ namespace NewAppTpp.Services
 
             try
             {
-                string query = $"SELECT Tgl_Gaji, Nip, Nama, Kd_Satker, Norek, Kd_Pangkat, Piwp1, Nm_Skpd, Pagu_TppBk, Pagu_TppKk FROM data_pegawai WHERE Tgl_Gaji = @Tgl_Gaji ORDER BY Nama ASC";
+                string query = $"SELECT Tgl_Gaji, Nip, Nama, Kd_Satker, Norek, Kd_Pangkat, Piwp, Nm_Skpd, Pagu_TppBk, Pagu_TppKk FROM data_pegawai WHERE Tgl_Gaji = @Tgl_Gaji ORDER BY Nama ASC";
                 string tglGaji = $"{tahun}-{bulan}-01".Trim();
 
                 using MySqlCommand command = new(query, connection);
@@ -160,7 +160,7 @@ namespace NewAppTpp.Services
                         KdSatker = reader["Kd_Satker"].ToString(),
                         Norek = reader["Norek"].ToString(),
                         KdPangkat = reader["Kd_Pangkat"].ToString(),
-                        Piwp = reader["Piwp1"].ToString(),
+                        Piwp = Convert.ToInt32(reader["Piwp"]),
                         NmSkpd = reader["Nm_Skpd"].ToString(),
                         PaguTppBk = Convert.ToInt32(reader["Pagu_TppBk"]),
                         PaguTppKk = Convert.ToInt32(reader["Pagu_TppKk"]),
@@ -186,13 +186,13 @@ namespace NewAppTpp.Services
             }
         }
 
-        public static void UpdatePegawai(string nip, string nama, string kdSatker, string norek, string kdPangkat, string piwp1, string nmSkpd, int paguTppBk, int paguTppKk)
+        public static void UpdatePegawai(string nip, string nama, string kdSatker, string norek, string kdPangkat, int piwp, string nmSkpd, int paguTppBk, int paguTppKk)
         {
             using var connection = OpenConnection();
 
             try
             {
-                string query = "UPDATE data_pegawai SET Nama = @Nama, Kd_Satker = @Kd_Satker, Norek = @Norek, Kd_Pangkat = @Kd_Pangkat, Piwp1 = @Piwp1, Nm_Skpd = @Nm_Skpd, Pagu_TppBk = @Pagu_TppBk, Pagu_TppKk = @Pagu_TppKk " +
+                string query = "UPDATE data_pegawai SET Nama = @Nama, Kd_Satker = @Kd_Satker, Norek = @Norek, Kd_Pangkat = @Kd_Pangkat, Piwp = @Piwp, Nm_Skpd = @Nm_Skpd, Pagu_TppBk = @Pagu_TppBk, Pagu_TppKk = @Pagu_TppKk " +
                                "WHERE Nip = @Nip;";
 
                 using var command = new MySqlCommand(query, connection);
@@ -201,7 +201,7 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Kd_Satker", kdSatker);
                 command.Parameters.AddWithValue("@Norek", norek);
                 command.Parameters.AddWithValue("@Kd_Pangkat", kdPangkat);
-                command.Parameters.AddWithValue("@Piwp1", piwp1);
+                command.Parameters.AddWithValue("@Piwp", piwp);
                 command.Parameters.AddWithValue("@Nm_Skpd", nmSkpd);
                 command.Parameters.AddWithValue("@Pagu_TppBk", paguTppBk);
                 command.Parameters.AddWithValue("@Pagu_TppKk", paguTppKk);

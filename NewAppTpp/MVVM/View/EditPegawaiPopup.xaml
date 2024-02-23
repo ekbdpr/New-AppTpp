@@ -1,0 +1,260 @@
+﻿<Border
+    x:Class="NewAppTpp.MVVM.View.EditPegawaiPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
+    Width="900"
+    Background="{DynamicResource RegionBrush}"
+    CornerRadius="10"
+    Effect="{DynamicResource EffectShadow5}"
+    mc:Ignorable="d">
+
+    <Border.DataContext>
+        <vm:EditPegawaiPopupViewModel />
+    </Border.DataContext>
+
+    <hc:SimplePanel>
+
+        <!--  main content  -->
+        <hc:SimpleStackPanel Margin="0,20">
+
+            <!--  title  -->
+            <hc:SimpleText
+                FontSize="{DynamicResource LargeFontSize}"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="Edit Pegawai"
+                TextAlignment="Center" />
+            <!--  end title  -->
+
+            <!--  divider  -->
+            <hc:Divider MaxWidth="850" />
+            <!--  end divider  -->
+
+            <!--  content container  -->
+            <hc:FlexPanel JustifyContent="SpaceBetween">
+
+                <hc:SimpleStackPanel>
+
+                    <!--  nip  -->
+                    <hc:SimpleStackPanel Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="NIP" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan NIP"
+                            IsEnabled="False"
+                            Text="{Binding Nip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end nip  -->
+
+                    <!--  nama  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Nama" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Nama"
+                            Text="{Binding Nama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end nama  -->
+
+                    <!--  kode satker  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Kode Satker" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Kode Satker"
+                            Text="{Binding KdSatker, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end kode satker  -->
+
+                    <!--  no rekening  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="No Rekening" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan No Rekening"
+                            Text="{Binding Norek, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end kode satker  -->
+
+                    <!--  kode pangkat  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Kode Pangkat" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Kode Pangkat"
+                            Text="{Binding KdPangkat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end kode satker  -->
+
+                </hc:SimpleStackPanel>
+
+                <hc:Divider Orientation="Vertical" />
+
+                <hc:SimpleStackPanel Margin="0,0,30,0">
+
+                    <!--  piwp  -->
+                    <hc:SimpleStackPanel Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Piwp" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Piwp"
+                            Text="{Binding Piwp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end piwp  -->
+
+                    <!--  nama skpd  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Nama SKPD" />
+
+                        <hc:TextBox
+                            Width="280"
+                            Height="75"
+                            hc:InfoElement.Placeholder="Masukkan Nama SKPD"
+                            Text="{Binding NmSkpd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end nama skpd  -->
+
+                    <!--  pagu tpp beban kerja  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Pagu TPP Beban Kerja"
+                            TextWrapping="Wrap" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Pagu TPP Beban Kerja"
+                            Text="{Binding PaguTppBk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end pagu tpp beban kerja  -->
+
+                    <!--  pagu tpp kondisi kerja  -->
+                    <hc:SimpleStackPanel Margin="0,20,0,0" Orientation="Horizontal">
+
+                        <hc:SimpleText
+                            Width="100"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Pagu TPP Kondisi Kerja"
+                            TextWrapping="Wrap" />
+
+                        <hc:TextBox
+                            Width="280"
+                            MaxHeight="30"
+                            hc:InfoElement.Placeholder="Masukkan Pagu TPP Kondisi Kerja"
+                            Text="{Binding PaguTppKk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </hc:SimpleStackPanel>
+                    <!--  end pagu tpp kondisi kerja  -->
+
+                </hc:SimpleStackPanel>
+
+            </hc:FlexPanel>
+            <!--  end content container  -->
+
+            <hc:Divider MaxWidth="850" />
+
+            <!--  save button  -->
+            <Button
+                Width="100"
+                Height="40"
+                Command="{Binding SaveCommand}"
+                Content="Save"
+                Cursor="Hand"
+                Style="{DynamicResource ButtonPrimary}" />
+            <!--  end save button  -->
+
+        </hc:SimpleStackPanel>
+        <!--  end main content  -->
+
+        <!--  exit button  -->
+        <Button
+            Width="22"
+            Height="22"
+            Margin="0,4,4,0"
+            Padding="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            hc:IconElement.Geometry="{DynamicResource ErrorGeometry}"
+            Command="hc:ControlCommands.Close"
+            Cursor="Hand"
+            Foreground="{DynamicResource DangerBrush}"
+            Style="{DynamicResource ButtonIcon}" />
+        <!--  end exit button  -->
+
+    </hc:SimplePanel>
+
+</Border>

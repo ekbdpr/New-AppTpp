@@ -39,24 +39,26 @@
         <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
         <!--  end divider  -->
 
-        <hc:SimplePanel Margin="0,5">
+        <!--  tambah user button  -->
+        <Button
+            Width="120"
+            Height="30"
+            HorizontalAlignment="Left"
+            hc:BorderElement.CornerRadius="10"
+            Command="{Binding AddUserCommand}"
+            Content="Tambah User"
+            Cursor="Hand"
+            Style="{DynamicResource ButtonPrimary}" />
+        <!--  end tambah user button  -->
 
-            <!--  tambah user button  -->
-            <Button
-                Width="120"
-                Height="30"
-                HorizontalAlignment="Left"
-                hc:BorderElement.CornerRadius="10"
-                Command="{Binding AddUserCommand}"
-                Content="Tambah User"
-                Cursor="Hand"
-                Style="{DynamicResource ButtonPrimary}" />
-            <!--  end tambah user button  -->
+        <hc:SimpleStackPanel
+            Margin="0,5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
 
             <!--  searchbox  -->
             <hc:SearchBar
                 Width="380"
-                HorizontalAlignment="Right"
                 hc:InfoElement.Placeholder="Cari User"
                 hc:InfoElement.Title="Pencarian : "
                 hc:InfoElement.TitlePlacement="Left"
@@ -67,7 +69,17 @@
                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <!--  end searchbox  -->
 
-        </hc:SimplePanel>
+            <!--  pagination  -->
+            <hc:Pagination
+                Margin="0,5"
+                Cursor="Hand"
+                DataCountPerPage="10"
+                MaxPageCount="{Binding MaxPageCount}"
+                MaxPageInterval="2"
+                PageIndex="{Binding PageIndex, Mode=TwoWay}" />
+            <!--  end pagination  -->
+
+        </hc:SimpleStackPanel>
 
         <!--  user table  -->
         <DataGrid
@@ -148,17 +160,6 @@
 
         </DataGrid>
         <!--  end user table  -->
-
-        <!--  pagination  -->
-        <hc:Pagination
-            Margin="0,5"
-            HorizontalAlignment="Right"
-            Cursor="Hand"
-            DataCountPerPage="10"
-            MaxPageCount="{Binding MaxPageCount}"
-            MaxPageInterval="2"
-            PageIndex="{Binding PageIndex, Mode=TwoWay}" />
-        <!--  end pagination  -->
 
     </hc:SimpleStackPanel>
 

@@ -19,6 +19,12 @@
     <Compile Update="MVVM\View\ConfirmationPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\EditBendahara.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\EditPegawaiPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\EditUserAccessPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +64,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\ConfirmationPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\EditBendahara.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\EditPegawaiPopup.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\EditUserAccessPopup.xaml">

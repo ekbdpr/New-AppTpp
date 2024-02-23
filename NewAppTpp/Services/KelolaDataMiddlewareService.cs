@@ -15,6 +15,17 @@ namespace NewAppTpp.Services
             }
         }
 
+        public string SelectedNip { get; set; }
+        public string SelectedNama { get; set; }
+        public string SelectedKdSatker { get; set; }
+        public string SelectedNorek { get; set; }
+        public string SelectedKdPangkat { get; set; }
+        public int SelectedPiwp { get; set; }
+        public string SelectedNmSkpd { get; set; }
+        public int SelectedPaguTppBk {  get; set; }
+        public int SelectedPaguTppKk { get; set; }
+
+
         private event Action _onDataSaved;
         public event Action OnDataSaved
         {

@@ -106,20 +106,33 @@
         </hc:SimpleStackPanel>
         <!--  end months filter  -->
 
-        <!--  searchbox  -->
-        <hc:SearchBar
-            Width="380"
-            Margin="0,5"
-            HorizontalAlignment="Right"
-            hc:InfoElement.Placeholder="Cari User"
-            hc:InfoElement.Title="Pencarian : "
-            hc:InfoElement.TitlePlacement="Left"
-            hc:InfoElement.TitleWidth="80"
-            Command="{Binding SearchPegawaiCommand}"
-            IsRealTime="True"
-            Style="{DynamicResource SearchBarExtend}"
-            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <!--  end searchbox  -->
+        <hc:SimpleStackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+            <!--  searchbox  -->
+            <hc:SearchBar
+                Width="380"
+                Margin="0,5"
+                hc:InfoElement.Placeholder="Cari User"
+                hc:InfoElement.Title="Pencarian : "
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="80"
+                Command="{Binding SearchPegawaiCommand}"
+                IsRealTime="True"
+                Style="{DynamicResource SearchBarExtend}"
+                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <!--  end searchbox  -->
+
+            <!--  pagination  -->
+            <hc:Pagination
+                Margin="0,5"
+                Cursor="Hand"
+                DataCountPerPage="10"
+                MaxPageCount="{Binding MaxPageCount}"
+                MaxPageInterval="2"
+                PageIndex="{Binding PageIndex, Mode=TwoWay}" />
+            <!--  end pagination  -->
+
+        </hc:SimpleStackPanel>
 
         <!--  user table  -->
         <DataGrid
@@ -128,7 +141,6 @@
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             CanUserReorderColumns="False"
-            CanUserResizeColumns="False"
             CanUserResizeRows="False"
             CanUserSortColumns="False"
             ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}"
@@ -220,17 +232,6 @@
 
         </DataGrid>
         <!--  end user table  -->
-
-        <!--  pagination  -->
-        <hc:Pagination
-            Margin="0,5"
-            HorizontalAlignment="Right"
-            Cursor="Hand"
-            DataCountPerPage="10"
-            MaxPageCount="{Binding MaxPageCount}"
-            MaxPageInterval="2"
-            PageIndex="{Binding PageIndex, Mode=TwoWay}" />
-        <!--  end pagination  -->
 
     </hc:SimpleStackPanel>
 

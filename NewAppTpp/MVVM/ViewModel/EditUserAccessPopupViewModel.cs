@@ -1,4 +1,5 @@
 ﻿using AppTpp.Services;
+using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
@@ -64,11 +65,11 @@ namespace NewAppTpp.MVVM.ViewModel
 
         private bool CanSave(object arg)
         {
-            return !string.IsNullOrEmpty(Nip) &&
-                   !string.IsNullOrEmpty(Nama) &&
-                   !string.IsNullOrEmpty(Jabatan) &&
-                   !string.IsNullOrEmpty(Username) &&
-                   !string.IsNullOrEmpty(Privilege);
+            return !string.IsNullOrWhiteSpace(Nip) &&
+                   !string.IsNullOrWhiteSpace(Nama) &&
+                   !string.IsNullOrWhiteSpace(Jabatan) &&
+                   !string.IsNullOrWhiteSpace(Username) &&
+                   !string.IsNullOrWhiteSpace(Privilege);
         }
 
         private async void Save(object obj)
@@ -80,7 +81,15 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during execute: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
             }
         }
     }
