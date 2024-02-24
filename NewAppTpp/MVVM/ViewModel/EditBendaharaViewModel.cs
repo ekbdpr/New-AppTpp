@@ -1,8 +1,11 @@
-﻿using HandyControl.Tools;
+﻿using HandyControl.Data;
+using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
 using NewAppTpp.Services;
 using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NewAppTpp.MVVM.ViewModel
@@ -29,7 +32,7 @@ namespace NewAppTpp.MVVM.ViewModel
             set { _pegawaiModel.CapaiKinerja = value; RaisePropertyChanged(nameof(CapaiKinerja)); }
         }
 
-        public int PercentKehadiran
+        public double PercentKehadiran
         {
             get { return _pegawaiModel.PercentKehadiran; }
             set { _pegawaiModel.PercentKehadiran = value; RaisePropertyChanged(nameof(PercentKehadiran)); }
@@ -52,9 +55,25 @@ namespace NewAppTpp.MVVM.ViewModel
             PercentKehadiran = BendaharaMiddlewareService.Instance.SelectedPercentKehadiran;
         }
 
-        private void Save()
+        private async void Save()
         {
-            throw new NotImplementedException();
+            try
+            {
+                await Task.Run(() => DataPegawaiService.UpdatePegawaiKinerjaKehadiran(Nip, CapaiKinerja, PercentKehadiran));
+                BendaharaMiddlewareService.Instance.InvokeDataSaved();
+            }
+            catch (Exception ex)
+            {
+                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                {
+                    Message = $"Error during execute: {ex.Message}",
+                    Caption = "Error",
+                    Button = MessageBoxButton.OK,
+                    IconBrushKey = ResourceToken.AccentBrush,
+                    IconKey = ResourceToken.ErrorGeometry,
+                    StyleKey = "MessageBoxCustom"
+                });
+            }
         }
     }
 }

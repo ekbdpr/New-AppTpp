@@ -101,6 +101,8 @@ namespace NewAppTpp.MVVM.ViewModel
             SearchPegawaiCommand = new SimpleRelayCommand(new Action(SearchPegawai));
 
             EditBendaharaCommand = new SimpleRelayCommand(new Action(OpenEditBendarahara));
+
+            BendaharaMiddlewareService.Instance.OnDataSaved += InitializeDataPegawaiList;
         }
 
         private void InitializeDataPegawaiList()
@@ -131,7 +133,7 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             finally
             {
-                
+                BendaharaDialog.Close();
             }
         }
 

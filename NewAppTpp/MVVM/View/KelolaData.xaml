@@ -179,7 +179,7 @@
 
                 <DataGridTextColumn
                     Width="0.7*"
-                    Binding="{Binding Piwp}"
+                    Binding="{Binding Piwp, StringFormat='Rp{0:N0}'}"
                     Header="Piwp" />
 
                 <DataGridTextColumn
@@ -189,12 +189,12 @@
 
                 <DataGridTextColumn
                     Width="1*"
-                    Binding="{Binding PaguTppBk}"
+                    Binding="{Binding PaguTppBk, StringFormat='Rp{0:N0}'}"
                     Header="Pagu TPP&#x0a;Beban Kerja" />
 
                 <DataGridTextColumn
                     Width="1*"
-                    Binding="{Binding PaguTppKk}"
+                    Binding="{Binding PaguTppKk, StringFormat='Rp{0:N0}'}"
                     Header="Pagu TPP&#x0a;Kondisi Kerja" />
 
                 <DataGridTemplateColumn Width="1*" Header="Modifikasi&#x0a;Data">

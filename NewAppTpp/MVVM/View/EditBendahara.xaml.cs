@@ -1,4 +1,6 @@
-﻿namespace NewAppTpp.MVVM.View
+﻿using HandyControl.Tools;
+
+namespace NewAppTpp.MVVM.View
 {
     /// <summary>
     /// Interaction logic for EditBendahara.xaml

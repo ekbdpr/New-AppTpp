@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[7.0.9, )"
             },
+            "FreeSpire.XLS": {
+              "target": "Package",
+              "version": "[12.7.0, )"
+            },
             "HandyControls": {
               "target": "Package",
               "version": "[3.5.0, )"

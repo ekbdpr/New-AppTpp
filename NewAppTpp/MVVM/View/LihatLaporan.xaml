@@ -6,17 +6,30 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:NewAppTpp.MVVM.ViewModel"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <hc:FlexPanel JustifyContent="Center">
+    <UserControl.DataContext>
+        <vm:LihatLaporanViewModel />
+    </UserControl.DataContext>
+
+    <hc:FlexPanel FlexDirection="Column" JustifyContent="Center">
 
         <hc:SimpleText
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="{DynamicResource LargeFontSize}"
             Foreground="{DynamicResource PrimaryTextBrush}"
             Text="Lihat Laporan" />
+
+        <Button
+            Margin="0,50"
+            Command="{Binding DownloadExcelCommand}"
+            Content="Unduh TPP"
+            Cursor="Hand"
+            Style="{DynamicResource ButtonPrimary}" />
 
     </hc:FlexPanel>
 

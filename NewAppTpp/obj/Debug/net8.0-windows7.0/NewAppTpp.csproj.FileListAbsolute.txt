@@ -69,3 +69,5 @@ D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-w
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditPegawaiPopup.baml
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditBendahara.g.cs
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\obj\Debug\net8.0-windows7.0\MVVM\View\EditBendahara.baml
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\Spire.XLS.dll
+D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\bin\Debug\net8.0-windows7.0\Spire.Pdf.dll

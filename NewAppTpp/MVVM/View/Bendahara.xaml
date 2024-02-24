@@ -155,66 +155,36 @@
             <DataGrid.Columns>
 
                 <DataGridTextColumn
-                    Width="2*"
+                    Width="1.5*"
                     Binding="{Binding Nip}"
                     Header="NIP" />
 
                 <DataGridTextColumn
-                    Width="3*"
+                    Width="2*"
                     Binding="{Binding Nama}"
                     Header="Nama" />
 
                 <DataGridTextColumn
-                    Width="1*"
+                    Width="0.8*"
                     Binding="{Binding KdPangkat}"
                     Header="Kode&#x0a;Pkt" />
 
                 <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding PaguTppBk}"
-                    Header="Pagu TPP&#x0a;Beban&#x0a;Kerja" />
-
-                <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding PaguTppKk}"
-                    Header="Pagu TPP&#x0a;Kondisi&#x0a;Kerja" />
-
-                <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding PaguTppKk}"
-                    Header="Pagu TPP&#x0a;Kondisi&#x0a;Kerja" />
-
-                <DataGridTextColumn
-                    Width="1.5*"
+                    Width="1.3*"
                     Binding="{Binding CapaiKinerja}"
-                    Header="Pencapaian&#x0a;Kinerja" />
+                    Header="Pencapaian&#x0a;Kinerja&#x0a;(%)" />
 
                 <DataGridTextColumn
-                    Width="1.5*"
+                    Width="1.3*"
                     Binding="{Binding PercentKehadiran}"
                     Header="Potongan&#x0a;Kehadiran&#x0a;(%)" />
 
                 <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding KinerjaMaks}"
+                    Width="1.5*"
+                    Binding="{Binding KinerjaMaks, StringFormat='Rp{0:N0}'}"
                     Header="Kinerja&#x0a;Maks" />
 
-                <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding KehadiranMaks}"
-                    Header="Kehadiran&#x0a;Maks" />
-
-                <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding RpKehadiran}"
-                    Header="Potongan&#x0a;Kehadiran&#x0a;(Rp)" />
-
-                <DataGridTextColumn
-                    Width="1.5*"
-                    Binding="{Binding NilaiKehadiran}"
-                    Header="Nilai&#x0a;Kehadiran" />
-
-                <DataGridTemplateColumn Width="1.5*" Header="Modifikasi&#x0a;Data">
+                <DataGridTemplateColumn Width="1.3*" Header="Modifikasi&#x0a;Data">
 
                     <DataGridTemplateColumn.CellTemplate>
 

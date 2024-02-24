@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "aPzEhsxYJwoqtY1bjHuWlXXEx6avCHTSsZR8IIykDWSKMtmNt4iCnQkjBppA5/9rwPFflf/K2pgGeYQ1qfwuMA==",
+  "dgSpecHash": "cHmNOFANS2YLm+H4UcZLCI3b7n/QKvQv51QNCi+/TQ/L9LhNlqjdvjoQD9SVmXH2Q/4oZmT2lEs7ahV5NCey6g==",
   "success": true,
   "projectFilePath": "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ekabu\\.nuget\\packages\\epplus\\7.0.9\\epplus.7.0.9.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\epplus.interfaces\\6.1.1\\epplus.interfaces.6.1.1.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\epplus.system.drawing\\6.1.1\\epplus.system.drawing.6.1.1.nupkg.sha512",
+    "C:\\Users\\ekabu\\.nuget\\packages\\freespire.xls\\12.7.0\\freespire.xls.12.7.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\handycontrols\\3.5.0\\handycontrols.3.5.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
@@ -23,7 +24,9 @@
     "C:\\Users\\ekabu\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.formats.asn1\\8.0.0\\system.formats.asn1.8.0.0.nupkg.sha512",
+    "C:\\Users\\ekabu\\.nuget\\packages\\system.security.accesscontrol\\6.0.0\\system.security.accesscontrol.6.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.0\\system.security.cryptography.pkcs.8.0.0.nupkg.sha512",
+    "C:\\Users\\ekabu\\.nuget\\packages\\system.security.cryptography.xml\\6.0.0\\system.security.cryptography.xml.6.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.text.encoding.codepages\\8.0.0\\system.text.encoding.codepages.8.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\ekabu\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512"

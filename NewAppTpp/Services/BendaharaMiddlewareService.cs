@@ -1,4 +1,6 @@
-﻿namespace NewAppTpp.Services
+﻿using System;
+
+namespace NewAppTpp.Services
 {
     internal class BendaharaMiddlewareService
     {
@@ -16,6 +18,24 @@
         public string SelectedNip { get; set; }
         public string SelectedNama { get; set; }
         public int SelectedCapaiKinerja { get; set; }
-        public int SelectedPercentKehadiran { get; set; }
+        public double SelectedPercentKehadiran { get; set; }
+
+        private event Action _onDataSaved;
+        public event Action OnDataSaved
+        {
+            add
+            {
+                _onDataSaved += value;
+            }
+            remove
+            {
+                _onDataSaved -= value;
+            }
+        }
+
+        public void InvokeDataSaved()
+        {
+            _onDataSaved.Invoke();
+        }
     }
 }
