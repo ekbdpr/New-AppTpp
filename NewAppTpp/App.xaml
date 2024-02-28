@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <hc:ThemeResources UsingSystemTheme="True" />
+                <hc:ThemeResources RequestedTheme="Light" />
                 <hc:Theme />
 
                 <ResourceDictionary Source="/Assets/Styles/MessageBoxCustomStyle.xaml" />

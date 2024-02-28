@@ -25,142 +25,147 @@
         </Style>
     </UserControl.Resources>
 
-    <hc:SimpleStackPanel Margin="20">
+    <hc:SimplePanel>
 
-        <!--  title  -->
-        <hc:SimpleText
-            VerticalAlignment="Center"
-            FontSize="{DynamicResource LargeFontSize}"
-            Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="User Manager" />
-        <!--  end title  -->
+        <hc:SimpleStackPanel Margin="20">
 
-        <!--  divider  -->
-        <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
-        <!--  end divider  -->
+            <!--  title  -->
+            <hc:SimpleText
+                VerticalAlignment="Center"
+                FontSize="{DynamicResource LargeFontSize}"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="User Manager" />
+            <!--  end title  -->
 
-        <!--  tambah user button  -->
-        <Button
-            Width="120"
-            Height="30"
-            HorizontalAlignment="Left"
-            hc:BorderElement.CornerRadius="10"
-            Command="{Binding AddUserCommand}"
-            Content="Tambah User"
-            Cursor="Hand"
-            Style="{DynamicResource ButtonPrimary}" />
-        <!--  end tambah user button  -->
+            <!--  divider  -->
+            <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
+            <!--  end divider  -->
 
-        <hc:SimpleStackPanel
-            Margin="0,5"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-
-            <!--  searchbox  -->
-            <hc:SearchBar
-                Width="380"
-                hc:InfoElement.Placeholder="Cari User"
-                hc:InfoElement.Title="Pencarian : "
-                hc:InfoElement.TitlePlacement="Left"
-                hc:InfoElement.TitleWidth="80"
-                Command="{Binding SearchUserCommand}"
-                IsRealTime="True"
-                Style="{DynamicResource SearchBarExtend}"
-                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <!--  end searchbox  -->
-
-            <!--  pagination  -->
-            <hc:Pagination
-                Margin="0,5"
+            <!--  tambah user button  -->
+            <Button
+                Width="120"
+                Height="30"
+                HorizontalAlignment="Left"
+                hc:BorderElement.CornerRadius="10"
+                Command="{Binding AddUserCommand}"
+                Content="Tambah User"
                 Cursor="Hand"
-                DataCountPerPage="10"
-                MaxPageCount="{Binding MaxPageCount}"
-                MaxPageInterval="2"
-                PageIndex="{Binding PageIndex, Mode=TwoWay}" />
-            <!--  end pagination  -->
+                Style="{DynamicResource ButtonPrimary}" />
+            <!--  end tambah user button  -->
+
+            <hc:SimpleStackPanel
+                Margin="0,5"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+
+                <!--  searchbox  -->
+                <hc:SearchBar
+                    Width="380"
+                    hc:InfoElement.Placeholder="Cari User"
+                    hc:InfoElement.Title="Pencarian : "
+                    hc:InfoElement.TitlePlacement="Left"
+                    hc:InfoElement.TitleWidth="80"
+                    Command="{Binding SearchUserCommand}"
+                    IsRealTime="True"
+                    Style="{DynamicResource SearchBarExtend}"
+                    Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <!--  end searchbox  -->
+
+                <!--  pagination  -->
+                <hc:Pagination
+                    Margin="0,5"
+                    Cursor="Hand"
+                    DataCountPerPage="10"
+                    MaxPageCount="{Binding MaxPageCount}"
+                    MaxPageInterval="2"
+                    PageIndex="{Binding PageIndex, Mode=TwoWay}" />
+                <!--  end pagination  -->
+
+            </hc:SimpleStackPanel>
+
+            <!--  user table  -->
+            <DataGrid
+                Margin="0,20,0,0"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                ItemsSource="{Binding UserAccessModelCollection}"
+                RowHeaderWidth="60"
+                SelectedItem="{Binding SelectedUser}">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Nip}"
+                        Header="NIP" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Nama}"
+                        Header="Nama" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Jabatan}"
+                        Header="Jabatan" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Username}"
+                        Header="Username" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Privilege}"
+                        Header="Privilege" />
+
+                    <DataGridTemplateColumn Width="1*" Header="Modifikasi Data">
+
+                        <DataGridTemplateColumn.CellTemplate>
+
+                            <DataTemplate>
+
+                                <hc:SimpleStackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                    <Button
+                                        hc:BorderElement.CornerRadius="10"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.EditUserCommand}"
+                                        Content="&#9998;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonWarning}" />
+
+                                    <Button
+                                        Margin="10,0,0,0"
+                                        hc:BorderElement.CornerRadius="10"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.DeleteUserCommand}"
+                                        Content="&#128465;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonDanger}" />
+
+                                </hc:SimpleStackPanel>
+
+                            </DataTemplate>
+
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+            <!--  end user table  -->
 
         </hc:SimpleStackPanel>
 
-        <!--  user table  -->
-        <DataGrid
-            Margin="0,20,0,0"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            CanUserReorderColumns="False"
-            CanUserResizeColumns="False"
-            CanUserResizeRows="False"
-            CanUserSortColumns="False"
-            ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}"
-            HeadersVisibility="Column"
-            IsReadOnly="True"
-            ItemsSource="{Binding UserAccessModelCollection}"
-            RowHeaderWidth="60"
-            SelectedItem="{Binding SelectedUser}">
+    </hc:SimplePanel>
 
-            <DataGrid.Columns>
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Nip}"
-                    Header="NIP" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Nama}"
-                    Header="Nama" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Jabatan}"
-                    Header="Jabatan" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Username}"
-                    Header="Username" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Privilege}"
-                    Header="Privilege" />
-
-                <DataGridTemplateColumn Width="1*" Header="Modifikasi Data">
-
-                    <DataGridTemplateColumn.CellTemplate>
-
-                        <DataTemplate>
-
-                            <hc:SimpleStackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-
-                                <Button
-                                    hc:BorderElement.CornerRadius="10"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.EditUserCommand}"
-                                    Content="&#9998;"
-                                    Cursor="Hand"
-                                    Style="{DynamicResource ButtonWarning}" />
-
-                                <Button
-                                    Margin="10,0,0,0"
-                                    hc:BorderElement.CornerRadius="10"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.DeleteUserCommand}"
-                                    Content="&#128465;"
-                                    Cursor="Hand"
-                                    Style="{DynamicResource ButtonDanger}" />
-
-                            </hc:SimpleStackPanel>
-
-                        </DataTemplate>
-
-                    </DataGridTemplateColumn.CellTemplate>
-
-                </DataGridTemplateColumn>
-
-            </DataGrid.Columns>
-
-        </DataGrid>
-        <!--  end user table  -->
-
-    </hc:SimpleStackPanel>
 
 </UserControl>

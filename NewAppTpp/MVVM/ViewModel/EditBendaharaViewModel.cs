@@ -59,7 +59,7 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             try
             {
-                await Task.Run(() => DataPegawaiService.UpdatePegawaiKinerjaKehadiran(Nip, CapaiKinerja, PercentKehadiran));
+                await Task.Run(() => DataPegawaiService.UpdatePegawaiKinerjaKehadiran(Nip, Nama, CapaiKinerja, PercentKehadiran));
                 BendaharaMiddlewareService.Instance.InvokeDataSaved();
             }
             catch (Exception ex)

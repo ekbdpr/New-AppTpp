@@ -15,22 +15,26 @@
         <vm:LihatLaporanViewModel />
     </UserControl.DataContext>
 
-    <hc:FlexPanel FlexDirection="Column" JustifyContent="Center">
+    <hc:SimplePanel>
 
-        <hc:SimpleText
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="{DynamicResource LargeFontSize}"
-            Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="Lihat Laporan" />
+        <hc:FlexPanel FlexDirection="Column" JustifyContent="Center">
 
-        <Button
-            Margin="0,50"
-            Command="{Binding DownloadExcelCommand}"
-            Content="Unduh TPP"
-            Cursor="Hand"
-            Style="{DynamicResource ButtonPrimary}" />
+            <hc:SimpleText
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="{DynamicResource LargeFontSize}"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="Lihat Laporan" />
 
-    </hc:FlexPanel>
+            <Button
+                Margin="0,50"
+                Command="{Binding DownloadExcelCommand}"
+                Content="Unduh TPP"
+                Cursor="Hand"
+                Style="{DynamicResource ButtonPrimary}" />
+
+        </hc:FlexPanel>
+
+    </hc:SimplePanel>
 
 </UserControl>

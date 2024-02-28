@@ -1,6 +1,5 @@
 ﻿using AppTpp.Services;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
@@ -9,7 +8,6 @@ using NewAppTpp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NewAppTpp.MVVM.ViewModel
@@ -106,12 +104,8 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             SubmitSearchCommand = new SimpleRelayCommand(new Action(InitializeDataPegawaiList));
             SearchPegawaiCommand = new SimpleRelayCommand(new Action(SearchPegawai));
-
             EditPegawaiCommand = new SimpleRelayCommand(new Action(EditPegawai));
             DeletePegawaiCommand = new SimpleRelayCommand(new Action(OpenConfirmationPopup));
-
-            KelolaDataMiddlewareService.Instance.OnDataSaved += InitializeDataPegawaiList;
-            KelolaDataMiddlewareService.Instance.OnDeleteData += DeletePegawai;
         }
 
         private void InitializeDataPegawaiList()
@@ -130,19 +124,11 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
             finally
             {
-                DataPegawaiDialog.Close();
+                CloseDialog();
             }
         }
 
@@ -171,19 +157,40 @@ namespace NewAppTpp.MVVM.ViewModel
             InitializeDataPegawaiList();
         }
 
-        private void EditPegawai() => DataPegawaiDialog = Dialog.Show(new EditPegawaiPopup());
-
-        private void DeletePegawai()
+        private void EditPegawai()
         {
-            DataPegawaiService.DeletePegawai(_selectedPegawai.Nip);
-            InitializeDataPegawaiList();
-            DataPegawaiDialog.Close();
-        }
+            DataPegawaiDialog = Dialog.Show(new EditPegawaiPopup());
 
+            KelolaDataMiddlewareService.Instance.OnDataSaved += InitializeDataPegawaiList;
+        }
         private void OpenConfirmationPopup()
         {
             DataPegawaiDialog = Dialog.Show(new ConfirmationPopup($"Anda yakin akan menghapus {_selectedPegawai.Nip} - {_selectedPegawai.Nama} dari data pegawai ?"));
             ConfirmationPopupMiddlewareService.NotifyConfirmationPopupUidChanged("DeletePegawaiConfirmation");
+
+            KelolaDataMiddlewareService.Instance.OnCancelAction += CloseDialog;
+            KelolaDataMiddlewareService.Instance.OnDeleteData += DeletePegawai;
+        }
+
+        private void DeletePegawai()
+        {
+            DataPegawaiService.DeletePegawai(_selectedPegawai.Nip, _selectedPegawai.Nama);
+            PegawaiModelCollection.Remove(PegawaiModelCollection.Where(p => p.Nip == _selectedPegawai.Nip).Single());
+            CloseDialog();
+        }
+
+        private void CloseDialog()
+        {
+            DataPegawaiDialog.Close();
+
+            DisposeEvents();
+        }
+
+        private void DisposeEvents()
+        {
+            KelolaDataMiddlewareService.Instance.OnDataSaved -= InitializeDataPegawaiList;
+            KelolaDataMiddlewareService.Instance.OnCancelAction -= CloseDialog;
+            KelolaDataMiddlewareService.Instance.OnDeleteData -= DeletePegawai;
         }
     }
 }

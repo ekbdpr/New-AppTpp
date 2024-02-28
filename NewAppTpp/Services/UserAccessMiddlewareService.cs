@@ -34,6 +34,19 @@ namespace AppTpp.Services
             }
         }
 
+        private event Action _onCancelAction;
+        public event Action OnCancelAction
+        {
+            add
+            {
+                _onCancelAction += value;
+            }
+            remove
+            {
+                _onCancelAction -= value;
+            }
+        }
+
         private event Action _onDeleteData;
         public event Action OnDeleteData
         {
@@ -50,6 +63,11 @@ namespace AppTpp.Services
         public void InvokeDataSaved()
         {
             _onDataSaved.Invoke();
+        }
+
+        public void InvokeCancelAction()
+        {
+            _onCancelAction.Invoke();
         }
 
         public void InvokeDataDeletion()

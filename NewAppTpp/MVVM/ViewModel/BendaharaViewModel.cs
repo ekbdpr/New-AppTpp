@@ -121,15 +121,7 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
             finally
             {

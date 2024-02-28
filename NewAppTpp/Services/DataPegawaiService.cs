@@ -10,6 +10,7 @@ using NewAppTpp.MVVM.Model;
 using HandyControl.Data;
 using OfficeOpenXml.Style;
 using Microsoft.Win32;
+using HandyControl.Controls;
 
 namespace NewAppTpp.Services
 {
@@ -88,19 +89,12 @@ namespace NewAppTpp.Services
 
                     command.ExecuteNonQuery();
                 }
+
+                Growl.Success($"Berhasil Import File Excel ke Database!", "SuccessMsg");
             }
             catch (MySqlException ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
-                return;
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
@@ -122,15 +116,8 @@ namespace NewAppTpp.Services
             }
             catch (MySqlException ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
+
                 return false;
             }
         }
@@ -183,15 +170,7 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
                 return [];
             }
         }
@@ -217,22 +196,37 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Pagu_TppKk", paguTppKk);
 
                 command.ExecuteNonQuery();
+
+                Growl.Success($"{nip} - {nama} Berhasil Diubah!", "SuccessMsg");
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
-        public static void UpdatePegawaiKinerjaKehadiran(string nip, int capaiKinerja, double percentKehadiran)
+        public static void DeletePegawai(string nip, string nama)
+        {
+            using var connection = OpenConnection();
+
+            try
+            {
+                string query = "DELETE FROM data_pegawai WHERE Nip = @Nip";
+
+                using var command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Nip", nip);
+
+                command.ExecuteNonQuery();
+
+                Growl.Success($"{nip} - {nama} Berhasil Dihapus!", "SuccessMsg");
+            }
+            catch (Exception ex)
+            {
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
+            }
+        }
+
+        public static void UpdatePegawaiKinerjaKehadiran(string nip, string nama, int capaiKinerja, double percentKehadiran)
         {
             using var connection = OpenConnection();
 
@@ -246,18 +240,12 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Nip", nip);
 
                 command.ExecuteNonQuery();
+
+                Growl.Success($"Data {nip} - {nama} Berhasil Diubah!", "SuccessMsg");
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
@@ -267,10 +255,10 @@ namespace NewAppTpp.Services
 
             try
             {
-                string query = "UPDATE data_pegawai SET Kinerja_Maks = (Pagu_TppBk + Pagu_TppKk) * (60/100), " +
-                               "Nilai_Kinerja = (Cap_Kinerja / 100) * Kinerja_Maks, " +
-                               "Kehadiran_Maks = (Pagu_TppBk + Pagu_TppKk) * (40/100), " +
-                               "Potongan_Kehadiran = (Kehadiran / 100) * Kehadiran_Maks, " +
+                string query = "UPDATE data_pegawai SET Kinerja_Maks = (Pagu_TppBk + Pagu_TppKk) * (60/100)," + " " +
+                               "Nilai_Kinerja = (Cap_Kinerja / 100) * Kinerja_Maks," + " " +
+                               "Kehadiran_Maks = (Pagu_TppBk + Pagu_TppKk) * (40/100)," + " " +
+                               "Potongan_Kehadiran = (Kehadiran / 100) * Kehadiran_Maks," + " " +
                                "Nilai_Kehadiran = Kehadiran_Maks - Potongan_Kehadiran";
 
                 using var command = new MySqlCommand(query, connection);
@@ -278,42 +266,7 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
-            }
-        }
-
-        public static void DeletePegawai(string nip)
-        {
-            using var connection = OpenConnection();
-
-            try
-            {
-                string query = "DELETE FROM data_pegawai WHERE Nip = @Nip";
-
-                using var command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Nip", nip);
-
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
@@ -321,7 +274,6 @@ namespace NewAppTpp.Services
         {
             try
             {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using var excel = new ExcelPackage();
 
                 var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
@@ -442,7 +394,7 @@ namespace NewAppTpp.Services
                 var saveFileDialog = new SaveFileDialog
                 {
                     Filter = "PDF Files (*.pdf)|*.pdf|All Files (*.*)|*.*",
-                    DefaultExt = "pdf",
+                    DefaultExt = "xslx",
                     FileName = $"{workSheet.Cells["A1"].Value}" + " " + $"{workSheet.Cells["A2"].Value}" + " " + $"{workSheet.Cells["A3"].Value}"
                 };
 
@@ -454,19 +406,13 @@ namespace NewAppTpp.Services
                     workbook.LoadFromStream(excelStream);
 
                     workbook.SaveToFile(saveFileDialog.FileName, Spire.Xls.FileFormat.PDF);
+
+                    Growl.Success("File Berhasi Disimpan!", "SuccessMsg");
                 }
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
     }

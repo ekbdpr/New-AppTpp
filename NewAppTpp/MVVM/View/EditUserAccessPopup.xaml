@@ -57,10 +57,11 @@
 
                 <hc:Col Span="18">
 
-                    <hc:TextBox
+                    <hc:SimpleText
                         MaxWidth="300"
                         MaxHeight="30"
-                        hc:InfoElement.Placeholder="Masukkan NIP"
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
                         Text="{Binding Nip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 </hc:Col>

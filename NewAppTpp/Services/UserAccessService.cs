@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using NewAppTpp.MVVM.Model;
 using HandyControl.Data;
+using HandyControl.Controls;
 
 namespace NewAppTpp.Services
 {
@@ -112,15 +113,7 @@ namespace NewAppTpp.Services
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
 
                 return [];
             }
@@ -144,18 +137,12 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Privilege", privilege);
 
                 command.ExecuteNonQuery();
+
+                Growl.Success($"{nip} - {username} ({privilege}) Berhasil Ditambahkan!", "SuccessMsg");
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
@@ -176,22 +163,16 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Nip", nip);
 
                 command.ExecuteNonQuery();
+
+                Growl.Success($"{nip} - {username} Berhasil Diubah!", "SuccessMsg");
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
-        public static void DeleteUser(string username)
+        public static void DeleteUser(string nip, string username)
         {
             using var connection = OpenConnection();
 
@@ -203,18 +184,12 @@ namespace NewAppTpp.Services
                 command.Parameters.AddWithValue("@Username", username);
 
                 command.ExecuteNonQuery();
+
+                Growl.Success($"{nip} - {username} Berhasil Dihapus!", "SuccessMsg");
             }
             catch ( Exception ex )
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
     }

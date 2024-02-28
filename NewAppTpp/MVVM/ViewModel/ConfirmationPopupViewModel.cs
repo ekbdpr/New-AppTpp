@@ -59,7 +59,7 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             if (ConfirmationPopupUid == "DeleteUserConfirmation")
             {
-                UserAccessMiddlewareService.Instance.InvokeDataSaved();
+                UserAccessMiddlewareService.Instance.InvokeCancelAction();
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace NewAppTpp.MVVM.ViewModel
 
             if (ConfirmationPopupUid == "DeletePegawaiConfirmation")
             {
-                KelolaDataMiddlewareService.Instance.InvokeDataSaved();
+                KelolaDataMiddlewareService.Instance.InvokeCancelAction();
                 return;
             }
         }

@@ -1,6 +1,5 @@
 ﻿using AppTpp.Exceptions;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using Microsoft.Win32;
@@ -74,8 +73,6 @@ namespace NewAppTpp.MVVM.ViewModel
 
             ChooseFileCommand = new SimpleRelayCommand(new Action(ChooseFile));
             ImportFileCommand = new RelayCommand(new Action<object>(ImportFile), new Func<object, bool>(CanImport));
-
-            ConfirmationPopupMiddlewareService.Instance.OnButtonClick += CloseConfirmationPopup;
         }
 
         private void InitialFileState()
@@ -97,6 +94,7 @@ namespace NewAppTpp.MVVM.ViewModel
             {
                 Filter = "Excel Files (*.xlsx;*.xls)|*.xlsx;*.xls|All Files (*.*)|*.*"
             };
+            ConfirmationPopupMiddlewareService.Instance.OnButtonClick += CloseConfirmationPopup;
 
             SaveFileToTempFolder(openFileDialog);
         }
@@ -176,15 +174,8 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (DuplicateDataException ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
+
                 ErrorIndicatorVisibility = Visibility.Visible;
             }
             finally
@@ -221,6 +212,7 @@ namespace NewAppTpp.MVVM.ViewModel
         private void CloseConfirmationPopup()
         {
             InputDataBatchDialog.Close();
+            ConfirmationPopupMiddlewareService.Instance.OnButtonClick -= CloseConfirmationPopup;
         }
     }
 }

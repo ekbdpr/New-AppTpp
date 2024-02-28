@@ -27,212 +27,218 @@
         <vm:KelolaDataViewModel />
     </UserControl.DataContext>
 
-    <hc:SimpleStackPanel Margin="20">
+    <hc:SimplePanel>
 
-        <!--  title  -->
-        <hc:SimpleText
-            VerticalAlignment="Center"
-            FontSize="{DynamicResource LargeFontSize}"
-            Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="Kelola Data Pegawai" />
-        <!--  end title  -->
+        <hc:SimpleStackPanel Margin="20">
 
-        <!--  divider  -->
-        <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
-        <!--  end divider  -->
+            <!--  title  -->
+            <hc:SimpleText
+                VerticalAlignment="Center"
+                FontSize="{DynamicResource LargeFontSize}"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="Kelola Data Pegawai" />
+            <!--  end title  -->
 
-        <!--  months filter  -->
-        <hc:SimpleStackPanel Orientation="Horizontal">
+            <!--  divider  -->
+            <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
+            <!--  end divider  -->
 
-            <!--  month  -->
-            <hc:ComboBox
-                Width="150"
-                hc:InfoElement.Placeholder="Pilih Bulan"
-                hc:InfoElement.Title="Bulan"
-                Cursor="Hand"
-                SelectedValue="{Binding Bulan, Mode=TwoWay}"
-                SelectedValuePath="Content">
+            <!--  months filter  -->
+            <hc:SimpleStackPanel Orientation="Horizontal">
 
-                <ComboBoxItem Content="Januari" />
-                <ComboBoxItem Content="Februari" />
-                <ComboBoxItem Content="Maret" />
-                <ComboBoxItem Content="April" />
-                <ComboBoxItem Content="Mei" />
-                <ComboBoxItem Content="Juni" />
-                <ComboBoxItem Content="Juli" />
-                <ComboBoxItem Content="Agustus" />
-                <ComboBoxItem Content="September" />
-                <ComboBoxItem Content="Oktober" />
-                <ComboBoxItem Content="November" />
-                <ComboBoxItem Content="Desember" />
+                <!--  month  -->
+                <hc:ComboBox
+                    Width="150"
+                    hc:InfoElement.Placeholder="Pilih Bulan"
+                    hc:InfoElement.Title="Bulan"
+                    Cursor="Hand"
+                    SelectedValue="{Binding Bulan, Mode=TwoWay}"
+                    SelectedValuePath="Content">
 
-            </hc:ComboBox>
-            <!--  end month  -->
+                    <ComboBoxItem Content="Januari" />
+                    <ComboBoxItem Content="Februari" />
+                    <ComboBoxItem Content="Maret" />
+                    <ComboBoxItem Content="April" />
+                    <ComboBoxItem Content="Mei" />
+                    <ComboBoxItem Content="Juni" />
+                    <ComboBoxItem Content="Juli" />
+                    <ComboBoxItem Content="Agustus" />
+                    <ComboBoxItem Content="September" />
+                    <ComboBoxItem Content="Oktober" />
+                    <ComboBoxItem Content="November" />
+                    <ComboBoxItem Content="Desember" />
 
-            <!--  year  -->
-            <hc:ComboBox
-                Width="150"
-                Margin="20,0,0,0"
-                hc:InfoElement.Placeholder="Pilih Tahun"
-                hc:InfoElement.Title="Tahun"
-                Cursor="Hand"
-                SelectedValue="{Binding Tahun, Mode=TwoWay}"
-                SelectedValuePath="Content">
+                </hc:ComboBox>
+                <!--  end month  -->
 
-                <ComboBoxItem Content="2024" />
-                <ComboBoxItem Content="2025" />
-                <ComboBoxItem Content="2026" />
-                <ComboBoxItem Content="2027" />
-                <ComboBoxItem Content="2028" />
-                <ComboBoxItem Content="2029" />
-                <ComboBoxItem Content="2030" />
+                <!--  year  -->
+                <hc:ComboBox
+                    Width="150"
+                    Margin="20,0,0,0"
+                    hc:InfoElement.Placeholder="Pilih Tahun"
+                    hc:InfoElement.Title="Tahun"
+                    Cursor="Hand"
+                    SelectedValue="{Binding Tahun, Mode=TwoWay}"
+                    SelectedValuePath="Content">
 
-            </hc:ComboBox>
-            <!--  end year  -->
+                    <ComboBoxItem Content="2024" />
+                    <ComboBoxItem Content="2025" />
+                    <ComboBoxItem Content="2026" />
+                    <ComboBoxItem Content="2027" />
+                    <ComboBoxItem Content="2028" />
+                    <ComboBoxItem Content="2029" />
+                    <ComboBoxItem Content="2030" />
 
-            <!--  search button  -->
-            <Button
-                Width="100"
-                Height="30"
-                Margin="20,0,0,0"
-                VerticalAlignment="Bottom"
-                hc:BorderElement.CornerRadius="15"
-                Command="{Binding SubmitSearchCommand}"
-                Content="Submit"
-                Cursor="Hand"
-                Style="{DynamicResource ButtonPrimary}" />
-            <!--  endsearch button  -->
+                </hc:ComboBox>
+                <!--  end year  -->
+
+                <!--  search button  -->
+                <Button
+                    Width="100"
+                    Height="30"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Bottom"
+                    hc:BorderElement.CornerRadius="15"
+                    Command="{Binding SubmitSearchCommand}"
+                    Content="Submit"
+                    Cursor="Hand"
+                    Style="{DynamicResource ButtonPrimary}" />
+                <!--  endsearch button  -->
+
+            </hc:SimpleStackPanel>
+            <!--  end months filter  -->
+
+            <hc:SimpleStackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <!--  searchbox  -->
+                <hc:SearchBar
+                    Width="380"
+                    Margin="0,5"
+                    hc:InfoElement.Placeholder="Cari User"
+                    hc:InfoElement.Title="Pencarian : "
+                    hc:InfoElement.TitlePlacement="Left"
+                    hc:InfoElement.TitleWidth="80"
+                    Command="{Binding SearchPegawaiCommand}"
+                    IsRealTime="True"
+                    Style="{DynamicResource SearchBarExtend}"
+                    Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <!--  end searchbox  -->
+
+                <!--  pagination  -->
+                <hc:Pagination
+                    Margin="0,5"
+                    Cursor="Hand"
+                    DataCountPerPage="10"
+                    MaxPageCount="{Binding MaxPageCount}"
+                    MaxPageInterval="2"
+                    PageIndex="{Binding PageIndex, Mode=TwoWay}" />
+                <!--  end pagination  -->
+
+            </hc:SimpleStackPanel>
+
+            <!--  user table  -->
+            <DataGrid
+                Margin="0,5,0,0"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                ItemsSource="{Binding PegawaiModelCollection}"
+                RowHeaderWidth="60"
+                SelectedItem="{Binding SelectedPegawai}">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Nip}"
+                        Header="NIP" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Nama}"
+                        Header="Nama" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding KdSatker}"
+                        Header="Kode Satker" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Norek}"
+                        Header="No.Rekening" />
+
+                    <DataGridTextColumn
+                        Width="0.5*"
+                        Binding="{Binding KdPangkat}"
+                        Header="Kode&#x0a;Pkt" />
+
+                    <DataGridTextColumn
+                        Width="0.7*"
+                        Binding="{Binding Piwp, StringFormat='Rp{0:N0}'}"
+                        Header="Piwp" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding NmSkpd}"
+                        Header="Nama SKPD" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding PaguTppBk, StringFormat='Rp{0:N0}'}"
+                        Header="Pagu TPP&#x0a;Beban Kerja" />
+
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding PaguTppKk, StringFormat='Rp{0:N0}'}"
+                        Header="Pagu TPP&#x0a;Kondisi Kerja" />
+
+                    <DataGridTemplateColumn Width="1*" Header="Modifikasi&#x0a;Data">
+
+                        <DataGridTemplateColumn.CellTemplate>
+
+                            <DataTemplate>
+
+                                <hc:SimpleStackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                    <Button
+                                        hc:BorderElement.CornerRadius="10"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.EditPegawaiCommand}"
+                                        Content="&#9998;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonWarning}" />
+
+                                    <Button
+                                        Margin="10,0,0,0"
+                                        hc:BorderElement.CornerRadius="10"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.DeletePegawaiCommand}"
+                                        Content="&#128465;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonDanger}" />
+
+                                </hc:SimpleStackPanel>
+
+                            </DataTemplate>
+
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+            <!--  end user table  -->
 
         </hc:SimpleStackPanel>
-        <!--  end months filter  -->
 
-        <hc:SimpleStackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+    </hc:SimplePanel>
 
-            <!--  searchbox  -->
-            <hc:SearchBar
-                Width="380"
-                Margin="0,5"
-                hc:InfoElement.Placeholder="Cari User"
-                hc:InfoElement.Title="Pencarian : "
-                hc:InfoElement.TitlePlacement="Left"
-                hc:InfoElement.TitleWidth="80"
-                Command="{Binding SearchPegawaiCommand}"
-                IsRealTime="True"
-                Style="{DynamicResource SearchBarExtend}"
-                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <!--  end searchbox  -->
 
-            <!--  pagination  -->
-            <hc:Pagination
-                Margin="0,5"
-                Cursor="Hand"
-                DataCountPerPage="10"
-                MaxPageCount="{Binding MaxPageCount}"
-                MaxPageInterval="2"
-                PageIndex="{Binding PageIndex, Mode=TwoWay}" />
-            <!--  end pagination  -->
-
-        </hc:SimpleStackPanel>
-
-        <!--  user table  -->
-        <DataGrid
-            Margin="0,5,0,0"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            CanUserReorderColumns="False"
-            CanUserResizeRows="False"
-            CanUserSortColumns="False"
-            ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}"
-            HeadersVisibility="Column"
-            IsReadOnly="True"
-            ItemsSource="{Binding PegawaiModelCollection}"
-            RowHeaderWidth="60"
-            SelectedItem="{Binding SelectedPegawai}">
-
-            <DataGrid.Columns>
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Nip}"
-                    Header="NIP" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Nama}"
-                    Header="Nama" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding KdSatker}"
-                    Header="Kode Satker" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Norek}"
-                    Header="No.Rekening" />
-
-                <DataGridTextColumn
-                    Width="0.5*"
-                    Binding="{Binding KdPangkat}"
-                    Header="Kode&#x0a;Pkt" />
-
-                <DataGridTextColumn
-                    Width="0.7*"
-                    Binding="{Binding Piwp, StringFormat='Rp{0:N0}'}"
-                    Header="Piwp" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding NmSkpd}"
-                    Header="Nama SKPD" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding PaguTppBk, StringFormat='Rp{0:N0}'}"
-                    Header="Pagu TPP&#x0a;Beban Kerja" />
-
-                <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding PaguTppKk, StringFormat='Rp{0:N0}'}"
-                    Header="Pagu TPP&#x0a;Kondisi Kerja" />
-
-                <DataGridTemplateColumn Width="1*" Header="Modifikasi&#x0a;Data">
-
-                    <DataGridTemplateColumn.CellTemplate>
-
-                        <DataTemplate>
-
-                            <hc:SimpleStackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-
-                                <Button
-                                    hc:BorderElement.CornerRadius="10"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.EditPegawaiCommand}"
-                                    Content="&#9998;"
-                                    Cursor="Hand"
-                                    Style="{DynamicResource ButtonWarning}" />
-
-                                <Button
-                                    Margin="10,0,0,0"
-                                    hc:BorderElement.CornerRadius="10"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Path=DataContext.DeletePegawaiCommand}"
-                                    Content="&#128465;"
-                                    Cursor="Hand"
-                                    Style="{DynamicResource ButtonDanger}" />
-
-                            </hc:SimpleStackPanel>
-
-                        </DataTemplate>
-
-                    </DataGridTemplateColumn.CellTemplate>
-
-                </DataGridTemplateColumn>
-
-            </DataGrid.Columns>
-
-        </DataGrid>
-        <!--  end user table  -->
-
-    </hc:SimpleStackPanel>
 
 </UserControl>

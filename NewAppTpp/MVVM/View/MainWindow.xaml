@@ -220,6 +220,38 @@
                 </hc:Row>
                 <!--  end header  -->
 
+                <Canvas Panel.ZIndex="1">
+
+                    <!--  success message  -->
+                    <ScrollViewer
+                        Canvas.Top="10"
+                        Canvas.Right="20"
+                        HorizontalAlignment="Right"
+                        VerticalScrollBarVisibility="Hidden">
+                        <StackPanel
+                            Margin="0,10,10,10"
+                            VerticalAlignment="Top"
+                            hc:Growl.GrowlParent="True"
+                            hc:Growl.Token="SuccessMsg" />
+                    </ScrollViewer>
+                    <!--  end success message  -->
+
+                    <!--  error message  -->
+                    <ScrollViewer
+                        Canvas.Top="10"
+                        Canvas.Right="20"
+                        HorizontalAlignment="Right"
+                        VerticalScrollBarVisibility="Hidden">
+                        <StackPanel
+                            Margin="0,10,10,10"
+                            VerticalAlignment="Top"
+                            hc:Growl.GrowlParent="True"
+                            hc:Growl.Token="ErrorMsg" />
+                    </ScrollViewer>
+                    <!--  end error message  -->
+
+                </Canvas>
+
                 <!--  main content  -->
                 <hc:Row>
 

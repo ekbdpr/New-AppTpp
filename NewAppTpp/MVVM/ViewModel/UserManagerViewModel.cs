@@ -96,9 +96,6 @@ namespace NewAppTpp.MVVM.ViewModel
             AddUserCommand = new SimpleRelayCommand(new Action(OpenAddUserPopup));
             EditUserCommand = new SimpleRelayCommand(new Action(OpenEditUserPopup));
             DeleteUserCommand = new SimpleRelayCommand(new Action(OpenConfirmationPopup));
-
-            UserAccessMiddlewareService.Instance.OnDataSaved += SaveChangedData;
-            UserAccessMiddlewareService.Instance.OnDeleteData += DeleteUser;
         }
 
         private void InitializeUserAccessData()
@@ -115,22 +112,14 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
 
         private void SaveChangedData()
         {
             InitializeUserAccessData();
-            UserAccessDialog.Close();
+            CloseDialog();
         }
 
         private void SearchUser()
@@ -138,21 +127,48 @@ namespace NewAppTpp.MVVM.ViewModel
             InitializeUserAccessData();
         }
 
-        private void OpenAddUserPopup() => UserAccessDialog = Dialog.Show(new AddUserAccessPopup());
+        private void OpenAddUserPopup()
+        {
+            UserAccessDialog = Dialog.Show(new AddUserAccessPopup());
 
-        private void OpenEditUserPopup() => UserAccessDialog = Dialog.Show(new EditUserAccessPopup());
+            UserAccessMiddlewareService.Instance.OnDataSaved += SaveChangedData;
+        }
+
+        private void OpenEditUserPopup()
+        {
+            UserAccessDialog = Dialog.Show(new EditUserAccessPopup());
+
+            UserAccessMiddlewareService.Instance.OnDataSaved += SaveChangedData;
+        }
 
         private void DeleteUser()
         {
-            UserAccessService.DeleteUser(SelectedUser.Username);
-            InitializeUserAccessData();
-            UserAccessDialog.Close();
+            UserAccessService.DeleteUser(_selectedUser.Nip, _selectedUser.Username);
+            UserAccessModelCollection.Remove(UserAccessModelCollection.Where(u => u.Nip == _selectedUser.Nip).Single());
+            CloseDialog();
         }
 
         private void OpenConfirmationPopup()
         {
             UserAccessDialog = Dialog.Show(new ConfirmationPopup($"Anda yakin akan menghapus {_selectedUser.Nip} - {_selectedUser.Nama} dari sistem ?"));
             ConfirmationPopupMiddlewareService.NotifyConfirmationPopupUidChanged("DeleteUserConfirmation");
+
+            UserAccessMiddlewareService.Instance.OnCancelAction += CloseDialog;
+            UserAccessMiddlewareService.Instance.OnDeleteData += DeleteUser;
+        }
+
+        private void CloseDialog()
+        {
+            UserAccessDialog.Close();
+
+            DisposeEvents();
+        }
+
+        private void DisposeEvents()
+        {
+            UserAccessMiddlewareService.Instance.OnDataSaved -= SaveChangedData;
+            UserAccessMiddlewareService.Instance.OnCancelAction -= CloseDialog;
+            UserAccessMiddlewareService.Instance.OnDeleteData -= DeleteUser;
         }
     }
 }

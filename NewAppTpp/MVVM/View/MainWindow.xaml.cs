@@ -10,6 +10,8 @@ namespace NewAppTpp.MVVM.View
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = SystemParameters.PrimaryScreenHeight * 0.95;
+            this.Width = SystemParameters.PrimaryScreenWidth * 0.95;
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)

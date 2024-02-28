@@ -70,23 +70,8 @@ namespace NewAppTpp.MVVM.ViewModel
 
         private async void Save(object obj)
         {
-            try
-            {
-                await Task.Run(() => UserAccessService.InsertNewUser(Nip, Nama, Jabatan, Username, Password, Privilege));
-                UserAccessMiddlewareService.Instance.InvokeDataSaved();
-            }
-            catch (Exception ex)
-            {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
-            }
+            await Task.Run(() => UserAccessService.InsertNewUser(Nip, Nama, Jabatan, Username, Password, Privilege));
+            UserAccessMiddlewareService.Instance.InvokeDataSaved();
         }
     }
 }
