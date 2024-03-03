@@ -17,23 +17,86 @@
 
     <hc:SimplePanel>
 
-        <hc:FlexPanel FlexDirection="Column" JustifyContent="Center">
+        <hc:SimpleStackPanel Margin="20">
 
+            <!--  title  -->
             <hc:SimpleText
-                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="{DynamicResource LargeFontSize}"
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Text="Lihat Laporan" />
+            <!--  end title  -->
 
+            <!--  divider  -->
+            <hc:Divider LineStroke="{DynamicResource DarkPrimaryBrush}" />
+            <!--  end divider  -->
+
+            <!--  months filter  -->
+            <hc:SimpleStackPanel Orientation="Horizontal">
+
+                <!--  month  -->
+                <hc:ComboBox
+                    Width="150"
+                    hc:InfoElement.Placeholder="Pilih Bulan"
+                    hc:InfoElement.Title="Bulan"
+                    Cursor="Hand"
+                    SelectedValue="{Binding Bulan, Mode=TwoWay}"
+                    SelectedValuePath="Content">
+
+                    <ComboBoxItem Content="Januari" />
+                    <ComboBoxItem Content="Februari" />
+                    <ComboBoxItem Content="Maret" />
+                    <ComboBoxItem Content="April" />
+                    <ComboBoxItem Content="Mei" />
+                    <ComboBoxItem Content="Juni" />
+                    <ComboBoxItem Content="Juli" />
+                    <ComboBoxItem Content="Agustus" />
+                    <ComboBoxItem Content="September" />
+                    <ComboBoxItem Content="Oktober" />
+                    <ComboBoxItem Content="November" />
+                    <ComboBoxItem Content="Desember" />
+
+                </hc:ComboBox>
+                <!--  end month  -->
+
+                <!--  year  -->
+                <hc:ComboBox
+                    Width="150"
+                    Margin="20,0,0,0"
+                    hc:InfoElement.Placeholder="Pilih Tahun"
+                    hc:InfoElement.Title="Tahun"
+                    Cursor="Hand"
+                    SelectedValue="{Binding Tahun, Mode=TwoWay}"
+                    SelectedValuePath="Content">
+
+                    <ComboBoxItem Content="2024" />
+                    <ComboBoxItem Content="2025" />
+                    <ComboBoxItem Content="2026" />
+                    <ComboBoxItem Content="2027" />
+                    <ComboBoxItem Content="2028" />
+                    <ComboBoxItem Content="2029" />
+                    <ComboBoxItem Content="2030" />
+
+                </hc:ComboBox>
+                <!--  end year  -->
+
+            </hc:SimpleStackPanel>
+            <!--  end months filter  -->
+
+            <!--  download file button  -->
             <Button
-                Margin="0,50"
-                Command="{Binding DownloadExcelCommand}"
-                Content="Unduh TPP"
+                Width="120"
+                Height="30"
+                Margin="0,20"
+                HorizontalAlignment="Left"
+                hc:BorderElement.CornerRadius="15"
+                Command="{Binding DownloadPdfCommand}"
+                Content="Unduh"
                 Cursor="Hand"
                 Style="{DynamicResource ButtonPrimary}" />
+            <!--  end download file button  -->
 
-        </hc:FlexPanel>
+        </hc:SimpleStackPanel>
 
     </hc:SimplePanel>
 

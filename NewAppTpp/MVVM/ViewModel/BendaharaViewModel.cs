@@ -35,7 +35,7 @@ namespace NewAppTpp.MVVM.ViewModel
                     BendaharaMiddlewareService.Instance.SelectedNip = _selectedPegawai.Nip;
                     BendaharaMiddlewareService.Instance.SelectedNama = _selectedPegawai.Nama;
                     BendaharaMiddlewareService.Instance.SelectedCapaiKinerja = _selectedPegawai.CapaiKinerja;
-                    BendaharaMiddlewareService.Instance.SelectedPercentKehadiran = _selectedPegawai.PercentKehadiran;
+                    BendaharaMiddlewareService.Instance.SelectedPercentKehadiran = _selectedPegawai.PotonganPercentKehadiran;
 
                     RaisePropertyChanged(nameof(SelectedPegawai));
                 }
@@ -109,9 +109,9 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             try
             {
-                string bulanAsString = ConvertBulanToNumber();
+                string tglGaji = $"{Tahun}-{ConvertBulanToNumber()}-01".Trim();
 
-                var pegawaiData = DataPegawaiService.GetAllDataPegawai(Tahun, bulanAsString);
+                var pegawaiData = DataPegawaiService.GetAllDataPegawai(tglGaji);
                 var filteredPegawaiData = string.IsNullOrEmpty(SearchText) ? pegawaiData : pegawaiData.Where(data => data.Nama.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || data.Nip.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
                 MaxPageCount = Convert.ToInt32(Math.Ceiling((double)filteredPegawaiData.Count() / 10.0));

@@ -178,12 +178,12 @@
 
                     <DataGridTextColumn
                         Width="1.3*"
-                        Binding="{Binding PercentKehadiran}"
+                        Binding="{Binding PotonganPercentKehadiran}"
                         Header="Potongan&#x0a;Kehadiran&#x0a;(%)" />
 
                     <DataGridTextColumn
                         Width="1.5*"
-                        Binding="{Binding KinerjaMaks, StringFormat='Rp{0:N0}'}"
+                        Binding="{Binding Tpp_Netto, StringFormat='Rp{0:N0}'}"
                         Header="Tpp Netto" />
 
                     <DataGridTemplateColumn Width="1.3*" Header="Modifikasi&#x0a;Data">

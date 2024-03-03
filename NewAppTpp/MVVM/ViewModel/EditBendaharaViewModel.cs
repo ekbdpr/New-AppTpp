@@ -1,4 +1,5 @@
-﻿using HandyControl.Data;
+﻿using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
@@ -32,10 +33,10 @@ namespace NewAppTpp.MVVM.ViewModel
             set { _pegawaiModel.CapaiKinerja = value; RaisePropertyChanged(nameof(CapaiKinerja)); }
         }
 
-        public double PercentKehadiran
+        public double PotonganPercentKehadiran
         {
-            get { return _pegawaiModel.PercentKehadiran; }
-            set { _pegawaiModel.PercentKehadiran = value; RaisePropertyChanged(nameof(PercentKehadiran)); }
+            get { return _pegawaiModel.PotonganPercentKehadiran; }
+            set { _pegawaiModel.PotonganPercentKehadiran = value; RaisePropertyChanged(nameof(PotonganPercentKehadiran)); }
         }
 
         public ICommand SaveCommand { get; }
@@ -52,27 +53,19 @@ namespace NewAppTpp.MVVM.ViewModel
             Nip = BendaharaMiddlewareService.Instance.SelectedNip;
             Nama = BendaharaMiddlewareService.Instance.SelectedNama;
             CapaiKinerja = BendaharaMiddlewareService.Instance.SelectedCapaiKinerja;
-            PercentKehadiran = BendaharaMiddlewareService.Instance.SelectedPercentKehadiran;
+            PotonganPercentKehadiran = BendaharaMiddlewareService.Instance.SelectedPercentKehadiran;
         }
 
         private async void Save()
         {
             try
             {
-                await Task.Run(() => DataPegawaiService.UpdatePegawaiKinerjaKehadiran(Nip, Nama, CapaiKinerja, PercentKehadiran));
+                await Task.Run(() => DataPegawaiService.UpdatePegawaiKinerjaKehadiran(Nip, Nama, CapaiKinerja, PotonganPercentKehadiran));
                 BendaharaMiddlewareService.Instance.InvokeDataSaved();
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                {
-                    Message = $"Error during execute: {ex.Message}",
-                    Caption = "Error",
-                    Button = MessageBoxButton.OK,
-                    IconBrushKey = ResourceToken.AccentBrush,
-                    IconKey = ResourceToken.ErrorGeometry,
-                    StyleKey = "MessageBoxCustom"
-                });
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
         }
     }

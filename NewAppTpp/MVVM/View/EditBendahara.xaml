@@ -45,7 +45,7 @@
                 <!--  end divider  -->
 
                 <!--  nip  -->
-                <hc:Col Span="6">
+                <hc:Col Span="10">
 
                     <hc:SimpleText
                         Margin="30,0,0,0"
@@ -55,10 +55,10 @@
 
                 </hc:Col>
 
-                <hc:Col Span="18">
+                <hc:Col Span="14">
 
                     <hc:SimpleText
-                        Margin="40,0,0,0"
+                        Margin="50,0,0,0"
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource PrimaryTextBrush}"
                         Text="{Binding Nip}" />
@@ -67,7 +67,7 @@
                 <!--  end nip  -->
 
                 <!--  nama  -->
-                <hc:Col Span="6">
+                <hc:Col Span="10">
 
                     <hc:SimpleText
                         Margin="30,0,0,0"
@@ -77,19 +77,20 @@
 
                 </hc:Col>
 
-                <hc:Col Span="18">
+                <hc:Col Span="14">
 
                     <hc:SimpleText
-                        Margin="40,0,0,0"
+                        Margin="50,0,0,0"
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource PrimaryTextBrush}"
-                        Text="{Binding Nama}" />
+                        Text="{Binding Nama}"
+                        TextWrapping="Wrap" />
 
                 </hc:Col>
                 <!--  end nama  -->
 
                 <!--  pencapaian kinerja  -->
-                <hc:Col Span="6">
+                <hc:Col Span="10">
 
                     <hc:SimpleText
                         Margin="30,0,0,0"
@@ -100,10 +101,10 @@
 
                 </hc:Col>
 
-                <hc:Col Span="18">
+                <hc:Col Span="14">
 
                     <hc:TextBox
-                        MaxWidth="300"
+                        MaxWidth="200"
                         MaxHeight="30"
                         hc:InfoElement.Placeholder="Masukkan Pencapaian Kinerja"
                         Text="{Binding CapaiKinerja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -112,24 +113,24 @@
                 <!--  end pencapaian kinerja  -->
 
                 <!--  kehadiran  -->
-                <hc:Col Span="6">
+                <hc:Col Span="10">
 
                     <hc:SimpleText
                         Margin="30,0,0,0"
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource PrimaryTextBrush}"
-                        Text="Persentase Kehadiran"
+                        Text="Potongan Persentase Kehadiran"
                         TextWrapping="Wrap" />
 
                 </hc:Col>
 
-                <hc:Col Span="18">
+                <hc:Col Span="14">
 
                     <hc:TextBox
-                        MaxWidth="300"
+                        MaxWidth="200"
                         MaxHeight="30"
                         hc:InfoElement.Placeholder="Masukkan Persentase Kehadiran"
-                        Text="{Binding PercentKehadiran, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding PotonganPercentKehadiran, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 </hc:Col>
                 <!--  end kehadiran  -->

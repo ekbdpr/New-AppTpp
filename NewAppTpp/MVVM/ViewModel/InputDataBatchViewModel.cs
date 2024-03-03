@@ -163,9 +163,9 @@ namespace NewAppTpp.MVVM.ViewModel
                 InitialIconState();
                 LoadingIndicatorVisibility = Visibility.Visible;
 
-                string bulanAsString = ConvertBulanToNumber();
+                string tglGaji = $"{Tahun}-{ConvertBulanToNumber()}-01".Trim();
 
-                await Task.Run(() => DataPegawaiService.ImportExcelToDatabase(_filePath, Tahun, bulanAsString));
+                await Task.Run(() => DataPegawaiService.ImportExcelToDatabase(_filePath, tglGaji));
 
                 DeleteFile();
                 InitialFileState();

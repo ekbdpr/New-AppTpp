@@ -49,9 +49,10 @@
                             Foreground="{DynamicResource PrimaryTextBrush}"
                             Text="NIP" />
 
-                        <hc:TextBox
+                        <hc:SimpleText
                             Width="280"
                             MaxHeight="30"
+                            Margin="8,10"
                             hc:InfoElement.Placeholder="Masukkan NIP"
                             IsEnabled="False"
                             Text="{Binding Nip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

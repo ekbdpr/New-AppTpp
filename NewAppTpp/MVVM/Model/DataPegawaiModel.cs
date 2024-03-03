@@ -2,7 +2,6 @@
 {
     internal class DataPegawaiModel
     {
-        public int PegawaiID { get; set; }
         public string TglGaji { get; set; }
         public string Nip { get; set; }
         public string Nama { get; set; }
@@ -14,11 +13,7 @@
         public int PaguTppBk { get; set; }
         public int PaguTppKk { get; set; }
         public int CapaiKinerja { get; set; }
-        public double PercentKehadiran { get; set; }
-        public int NilaiKinerja { get; set; }
-        public int KinerjaMaks { get; set; }
-        public int KehadiranMaks { get; set; }
-        public int RpKehadiran { get; set; }
-        public int NilaiKehadiran { get; set; }
+        public double PotonganPercentKehadiran { get; set; }
+        public int Tpp_Netto { get; set; }
     }
 }

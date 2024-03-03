@@ -114,6 +114,10 @@ namespace NewAppTpp.MVVM.ViewModel
             {
                 Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
             }
+            finally
+            {
+                CloseDialog();
+            }
         }
 
         private void SaveChangedData()
@@ -144,8 +148,7 @@ namespace NewAppTpp.MVVM.ViewModel
         private void DeleteUser()
         {
             UserAccessService.DeleteUser(_selectedUser.Nip, _selectedUser.Username);
-            UserAccessModelCollection.Remove(UserAccessModelCollection.Where(u => u.Nip == _selectedUser.Nip).Single());
-            CloseDialog();
+            InitializeUserAccessData();
         }
 
         private void OpenConfirmationPopup()

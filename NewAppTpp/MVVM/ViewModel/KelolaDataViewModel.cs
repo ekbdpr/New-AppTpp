@@ -112,9 +112,9 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             try
             {
-                string bulanAsString = ConvertBulanToNumber();
+                string tglGaji = $"{Tahun}-{ConvertBulanToNumber()}-01".Trim();
 
-                var pegawaiData = DataPegawaiService.GetAllDataPegawai(Tahun, bulanAsString);
+                var pegawaiData = DataPegawaiService.GetAllDataPegawai(tglGaji);
                 var filteredPegawaiData = string.IsNullOrEmpty(SearchText) ? pegawaiData : pegawaiData.Where(data => data.Nama.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || data.Nip.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
                 MaxPageCount = Convert.ToInt32(Math.Ceiling((double)filteredPegawaiData.Count() / 10.0));
@@ -175,8 +175,7 @@ namespace NewAppTpp.MVVM.ViewModel
         private void DeletePegawai()
         {
             DataPegawaiService.DeletePegawai(_selectedPegawai.Nip, _selectedPegawai.Nama);
-            PegawaiModelCollection.Remove(PegawaiModelCollection.Where(p => p.Nip == _selectedPegawai.Nip).Single());
-            CloseDialog();
+            InitializeDataPegawaiList();
         }
 
         private void CloseDialog()
