@@ -1,0 +1,84 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj": {}
+  },
+  "projects": {
+    "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj",
+        "projectName": "NewAppTpp",
+        "projectPath": "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\NewAppTpp.csproj",
+        "packagesPath": "C:\\Users\\ekabu\\.nuget\\packages\\",
+        "outputPath": "D:\\UNITAMA\\Semester 3\\Pemrograman 2\\Tugas\\NewAppTpp\\NewAppTpp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ekabu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows7.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "FreeSpire.XLS": {
+              "target": "Package",
+              "version": "[12.7.0, )"
+            },
+            "HandyControls": {
+              "target": "Package",
+              "version": "[3.5.0, )"
+            },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.3.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

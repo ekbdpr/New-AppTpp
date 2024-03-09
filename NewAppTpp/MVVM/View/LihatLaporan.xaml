@@ -83,6 +83,56 @@
             </hc:SimpleStackPanel>
             <!--  end months filter  -->
 
+            <!--  kepala dinas  -->
+            <hc:ComboBox
+                Width="320"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left"
+                hc:InfoElement.Placeholder="Pilih Kepala Dinas"
+                hc:InfoElement.Title="Kepala Dinas"
+                Cursor="Hand"
+                ItemsSource="{Binding PegawaiList}"
+                SelectedValue="{Binding SelectedKepalaDinas, Mode=TwoWay}"
+                SelectedValuePath="Nip">
+
+                <hc:ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Nip}" />
+                            <TextBlock Text=" - " />
+                            <TextBlock Text="{Binding Nama}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </hc:ComboBox.ItemTemplate>
+
+            </hc:ComboBox>
+            <!--  end kepala dinas  -->
+
+            <!--  kasubag  -->
+            <hc:ComboBox
+                Width="320"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left"
+                hc:InfoElement.Placeholder="Pilih Kasubag"
+                hc:InfoElement.Title="Kasubag Umum Kepegawaian"
+                Cursor="Hand"
+                ItemsSource="{Binding PegawaiList}"
+                SelectedValue="{Binding SelectedKasubag, Mode=TwoWay}"
+                SelectedValuePath="Nip">
+
+                <hc:ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Nip}" />
+                            <TextBlock Text=" - " />
+                            <TextBlock Text="{Binding Nama}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </hc:ComboBox.ItemTemplate>
+
+            </hc:ComboBox>
+            <!--  end kasubag  -->
+
             <!--  download file button  -->
             <Button
                 Width="120"

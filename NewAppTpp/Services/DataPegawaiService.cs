@@ -10,6 +10,7 @@ using OfficeOpenXml.Style;
 using Microsoft.Win32;
 using HandyControl.Controls;
 using System.Linq;
+using System.Globalization;
 
 namespace NewAppTpp.Services
 {
@@ -137,27 +138,17 @@ namespace NewAppTpp.Services
             }
         }
 
-        public static List<DataPegawaiModel> GetAllDataPegawai(string tglGaji)
+        public static List<DataPegawaiModel> GetDataPegawai()
         {
-            CalculateKinerja();
             using var connectionData = OpenConnection();
-            using var connectionBk = OpenConnection();
-            using var ConnectionKk = OpenConnection();
 
             try
             {
                 List<DataPegawaiModel> pegawaiList = [];
 
                 string queryDataPegawai = "SELECT Nip, Nama, Kd_Satker, Norek, Kd_Pangkat, Nm_Skpd FROM data_pegawai ORDER BY Nama ASC";
-                string queryTppBebanKerja = "SELECT Nip, Tgl_Gaji, Tpp_Bk, Piwp, Cap_Kinerja, Potongan_Percent_Kehadiran, Tpp_Netto FROM tpp_beban_kerja WHERE Tgl_Gaji = @Tgl_Gaji";
-                string queryTppKondisiKerja = "SELECT Nip, Tgl_Gaji, Tpp_Kk, Cap_Kinerja, Potongan_Percent_Kehadiran, Tpp_Netto FROM tpp_kondisi_kerja WHERE Tgl_Gaji = @Tgl_Gaji";
 
                 using MySqlCommand commandData = new(queryDataPegawai, connectionData);
-                using MySqlCommand commandBk = new(queryTppBebanKerja, connectionBk);
-                using MySqlCommand commandKk = new(queryTppKondisiKerja, ConnectionKk);
-
-                commandBk.Parameters.AddWithValue("@Tgl_Gaji", tglGaji);
-                commandKk.Parameters.AddWithValue("@Tgl_Gaji", tglGaji);
 
                 using MySqlDataReader readerData = commandData.ExecuteReader();
                 while (readerData.Read())
@@ -175,6 +166,35 @@ namespace NewAppTpp.Services
 
                     pegawaiList.Add(pegawaiModel);
                 }
+
+                return pegawaiList;
+            }
+            catch (Exception ex)
+            {
+                Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
+                return [];
+            }
+        }
+
+        public static List<DataPegawaiModel> GetAllDataPegawai(string tglGaji)
+        {
+            using var connectionBk = OpenConnection();
+            using var ConnectionKk = OpenConnection();
+
+            try
+            {
+                List<DataPegawaiModel> pegawaiList = [];
+
+                string queryTppBebanKerja = "SELECT Nip, Tgl_Gaji, Tpp_Bk, Piwp, Cap_Kinerja, Potongan_Percent_Kehadiran, Tpp_Netto FROM tpp_beban_kerja WHERE Tgl_Gaji = @Tgl_Gaji";
+                string queryTppKondisiKerja = "SELECT Nip, Tgl_Gaji, Tpp_Kk, Cap_Kinerja, Potongan_Percent_Kehadiran, Tpp_Netto FROM tpp_kondisi_kerja WHERE Tgl_Gaji = @Tgl_Gaji";
+
+                using MySqlCommand commandBk = new(queryTppBebanKerja, connectionBk);
+                using MySqlCommand commandKk = new(queryTppKondisiKerja, ConnectionKk);
+
+                commandBk.Parameters.AddWithValue("@Tgl_Gaji", tglGaji);
+                commandKk.Parameters.AddWithValue("@Tgl_Gaji", tglGaji);
+
+                pegawaiList.AddRange(GetDataPegawai());
 
                 using MySqlDataReader readerBk = commandBk.ExecuteReader();
                 while (readerBk.Read())
@@ -215,6 +235,13 @@ namespace NewAppTpp.Services
             {
                 Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
                 return [];
+            }
+            finally
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    CalculateKinerja();
+                }
             }
         }
 
@@ -336,18 +363,25 @@ namespace NewAppTpp.Services
             {
                 string queryTppBebanKerja = "UPDATE tpp_beban_kerja AS tbk " +
                                "INNER JOIN data_pegawai AS dp ON tbk.Nip = dp.Nip " +
+                               "INNER JOIN tpp_kondisi_kerja AS tkk ON tbk.Nip = tkk.Nip " +
                                "SET " +
                                "tbk.Tpp_Bk = CASE WHEN tbk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tbk.Tpp_Bk END," +
                                "tbk.Kinerja_Maks = CASE WHEN tbk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tbk.Tpp_Bk * 0.6 END," +
-                               "tbk.Nilai_Kinerja = (tbk.Cap_Kinerja / 100) * tbk.Kinerja_Maks," +
                                "tbk.Kehadiran_Maks = CASE WHEN tbk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tbk.Tpp_Bk * 0.4 END," +
+                               "tbk.Bpjs = tbk.Tpp_Bk * 0.01," +
+                               "tbk.Iuran = tbk.Tpp_Bk * 0.04";
+
+                string querySecondTppBebanKerja = "UPDATE tpp_beban_kerja AS tbk " +
+                               "INNER JOIN data_pegawai AS dp ON tbk.Nip = dp.Nip " +
+                               "INNER JOIN tpp_kondisi_kerja AS tkk ON tbk.Nip = tkk.Nip " +
+                               "SET " +
+                               "tbk.Nilai_Kinerja = (tbk.Cap_Kinerja / 100) * tbk.Kinerja_Maks," +
                                "tbk.Potongan_Kehadiran = (tbk.Potongan_Percent_Kehadiran / 100) * tbk.Kehadiran_Maks," +
                                "tbk.Nilai_Kehadiran = CASE WHEN tbk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tbk.Kehadiran_Maks - tbk.Potongan_Kehadiran END," +
-                               "tbk.Bpjs = CASE WHEN (tbk.Bpjs + tbk.Piwp) > 120000 THEN tbk.Tpp_Bk * 0.01 - (tbk.Bpjs + tbk.Piwp - 120000) ELSE tbk.Tpp_Bk * 0.01 END," +
+                               "tbk.Bpjs = CASE WHEN (tbk.Bpjs + tkk.Bpjs + tbk.Piwp) > 120000 THEN tbk.Bpjs - (tbk.Bpjs + tkk.Bpjs + tbk.Piwp - 120000) ELSE tbk.Bpjs END," +
                                "tbk.Tpp_Bruto = tbk.Nilai_Kinerja + tbk.Nilai_Kehadiran - tbk.Bpjs," +
                                "tbk.Pph = CASE WHEN dp.Kd_Pangkat LIKE '%4%' THEN tbk.Tpp_Bruto * 0.15 WHEN dp.Kd_Pangkat LIKE '%3%' THEN tbk.Tpp_Bruto * 0.05 ELSE 0 END," +
                                "tbk.Tpp_Netto = CASE WHEN tbk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tbk.Tpp_Bruto - tbk.Pph END," +
-                               "tbk.Iuran = tbk.Tpp_Bk * 0.04," +
                                "tbk.Nilai_Bruto_Spm = tbk.Nilai_Kinerja + tbk.Nilai_Kehadiran + tbk.Iuran";
 
                 string queryTppKondisiKerja = "UPDATE tpp_kondisi_kerja AS tkk " +
@@ -359,7 +393,7 @@ namespace NewAppTpp.Services
                                "tkk.Kehadiran_Maks = CASE WHEN tkk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tkk.Tpp_Kk * 0.4 END," +
                                "tkk.Potongan_Kehadiran = (tkk.Potongan_Percent_Kehadiran / 100) * tkk.Kehadiran_Maks," +
                                "tkk.Nilai_Kehadiran = CASE WHEN tkk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tkk.Kehadiran_Maks - tkk.Potongan_Kehadiran END," +
-                               "tkk.Bpjs = CASE WHEN (tkk.Bpjs + tkk.Piwp) > 120000 THEN tkk.Tpp_Kk * 0.01 - (tkk.Bpjs + tkk.Piwp - 120000) ELSE tkk.Tpp_Kk * 0.01 END," +
+                               "tkk.Bpjs = tkk.Tpp_Kk * 0.01," +
                                "tkk.Tpp_Bruto = tkk.Nilai_Kinerja + tkk.Nilai_Kehadiran - tkk.Bpjs," +
                                "tkk.Pph = CASE WHEN dp.Kd_Pangkat LIKE '%4%' THEN tkk.Tpp_Bruto * 0.15 WHEN dp.Kd_Pangkat LIKE '%3%' THEN tkk.Tpp_Bruto * 0.05 ELSE 0 END," +
                                "tkk.Tpp_Netto = CASE WHEN tkk.Potongan_Percent_Kehadiran >= 15 THEN 0 ELSE tkk.Tpp_Bruto - tkk.Pph END," +
@@ -367,9 +401,11 @@ namespace NewAppTpp.Services
                                "tkk.Nilai_Bruto_Spm = tkk.Nilai_Kinerja + tkk.Nilai_Kehadiran + tkk.Iuran";
 
                 using var commandBk = new MySqlCommand(queryTppBebanKerja, connectionBk);
+                using var commandSecondBk = new MySqlCommand(querySecondTppBebanKerja, connectionBk);
                 using var commandKk = new MySqlCommand(queryTppKondisiKerja, connectionKk);
 
                 commandBk.ExecuteNonQuery();
+                commandSecondBk.ExecuteNonQuery();
                 commandKk.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -378,220 +414,14 @@ namespace NewAppTpp.Services
             }
         }
 
-        public static void ExportToPdf(string tglGaji, string bulan, string tahun)
+        public static void ExportToPdf(string tglGaji, string bulan, string tahun, string nipKepalaDinas, string nipKasubag)
         {
             try
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using var excel = new ExcelPackage();
 
-                var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
-                workSheet.TabColor = System.Drawing.Color.Black;
-                workSheet.PrinterSettings.PaperSize = ePaperSize.A4;
-                workSheet.PrinterSettings.Orientation = eOrientation.Landscape;
-                workSheet.PrinterSettings.FitToPage = true;
-                workSheet.PrinterSettings.FitToWidth = 1;
-                workSheet.Cells.Style.Font.Name = "Times New Roman";
-                workSheet.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                workSheet.Column(1).Width = 5;
-                workSheet.Column(2).Width = 20;
-                workSheet.Column(3).Width = 15;
-                //title style
-
-                //baris pertama
-                workSheet.Row(1).Style.Font.Size = 12;
-                workSheet.Cells["A1:X1"].Merge = true;
-
-                workSheet.Cells["A1"].Value = "LAPORAN PEMBAYARAN TAMBAHAN PENGHASILAN PEGAWAI";
-                //end baris pertama
-
-                //baris dua
-                workSheet.Row(2).Style.Font.Size = 12;
-                workSheet.Cells["A2:X2"].Merge = true;
-
-                workSheet.Cells["A2"].Value = "DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL";
-                //end baris dua
-
-                //baris tiga
-                workSheet.Row(3).Style.Font.Size = 12;
-                workSheet.Cells["A3:X3"].Merge = true;
-
-                workSheet.Cells["A3"].Value = $"{bulan.ToUpper()} {tahun}";
-                //end baris tiga
-
-                //baris lima
-                workSheet.Row(5).Style.Font.Size = 8;
-                workSheet.Row(5).Style.Font.Name = "Times New Roman";
-                workSheet.Row(5).Style.Font.Bold = true;
-                workSheet.Row(5).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Row(5).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                workSheet.Row(5).Style.WrapText = true;
-                workSheet.Cells["A5:X7"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                workSheet.Cells["A5:X7"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                workSheet.Cells["A5:X7"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                workSheet.Cells["A5:X7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-
-                workSheet.Cells["A5:A7"].Merge = true;
-                workSheet.Cells["B5:B7"].Merge = true;
-                workSheet.Cells["C5:C7"].Merge = true;
-                workSheet.Cells["D5:D7"].Merge = true;
-                workSheet.Cells["E5:E7"].Merge = true;
-                workSheet.Cells["F5:F7"].Merge = true;
-                workSheet.Cells["G5:G7"].Merge = true;
-                workSheet.Cells["H5:H7"].Merge = true;
-                workSheet.Cells["I5:I7"].Merge = true;
-                workSheet.Cells["J5:P5"].Merge = true;
-                workSheet.Cells["Q5:Q7"].Merge = true;
-                workSheet.Cells["R5:R7"].Merge = true;
-                workSheet.Cells["S5:S7"].Merge = true;
-                workSheet.Cells["T5:T7"].Merge = true;
-                workSheet.Cells["U5:U7"].Merge = true;
-                workSheet.Cells["V5:V7"].Merge = true;
-                workSheet.Cells["W5:W7"].Merge = true;
-                workSheet.Cells["X5:X7"].Merge = true;
-
-                workSheet.Cells["A5"].Value = "NO";
-                workSheet.Cells["B5"].Value = "NAMA";
-                workSheet.Cells["C5"].Value = "NIP";
-                workSheet.Cells["D5"].Value = "GOL";
-                workSheet.Cells["E5"].Value = "JABATAN";
-                workSheet.Cells["F5"].Value = "JENIS JABATAN SESUAI PERPUB TPP";
-                workSheet.Cells["G5"].Value = "KELAS JABATAN";
-                workSheet.Cells["H5"].Value = "PAGU TPP = Beban Kerja + Kondisi Kerja";
-                workSheet.Cells["I5"].Value = "PIWP";
-                workSheet.Cells["J5"].Value = "BESARAN TPP";
-                workSheet.Cells["Q5"].Value = "BPJS 1%";
-                workSheet.Cells["R5"].Value = "TPP BRUTO";
-                workSheet.Cells["S5"].Value = "PPH PSL 21";
-                workSheet.Cells["T5"].Value = "TPP NETTO";
-                workSheet.Cells["U5"].Value = "NILAI BRUTO SPM";
-                workSheet.Cells["V5"].Value = "NO.REK";
-                workSheet.Cells["W5"].Value = "IURAN 4% (DIBAYAR OLEH PEMDA)";
-                workSheet.Cells["X5"].Value = "KETERANGAN";
-                //end baris lima
-
-                //baris enam
-                workSheet.Row(6).Style.Font.Size = 8;
-                workSheet.Row(6).Style.Font.Name = "Times New Roman";
-                workSheet.Row(6).Style.Font.Bold = true;
-                workSheet.Row(6).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Row(6).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                workSheet.Cells["J6:L6"].Merge = true;
-                workSheet.Cells["M6:P6"].Merge = true;
-
-                workSheet.Cells["J6"].Value = "KINERJA 60%";
-                workSheet.Cells["M6"].Value = "KINERJA 40%";
-                //end baris enam
-
-                //baris tujuh
-                workSheet.Row(7).Height = 60;
-                workSheet.Row(7).Style.Font.Size = 8;
-                workSheet.Row(7).Style.Font.Name = "Times New Roman";
-                workSheet.Row(7).Style.Font.Bold = true;
-                workSheet.Row(7).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Row(7).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                workSheet.Row(7).Style.WrapText = true;
-
-                workSheet.Cells["J7"].Value = "KINERJA MAKS (Rp)";
-                workSheet.Cells["K7"].Value = "CAPAIAN KINERJA (%)";
-                workSheet.Cells["L7"].Value = "NILAI KINERJA (Rp)";
-                workSheet.Cells["M7"].Value = "KEHADIRAN MAKS (Rp)";
-                workSheet.Cells["N7"].Value = "POTONGAN KEHADIRAN (%)";
-                workSheet.Cells["O7"].Value = "POTONGAN KEHADIRAN (Rp)";
-                workSheet.Cells["P7"].Value = "NILAI KEHADIRAN (Rp)";
-                //end baris enam
-
-                List<DataExportModel> list = GetExportableData(tglGaji);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    int headerCol = i + 7;
-
-                    //baris isi tabel
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Font.Name = "Times New Roman";
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Font.Size = 7;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.WrapText = true;
-
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                    workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-
-                    workSheet.Cells[$"B{i + headerCol + 1}:C{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                    workSheet.Cells[$"H{i + headerCol + 1}:J{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-                    workSheet.Cells[$"L{i + headerCol + 1}:M{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-                    workSheet.Cells[$"O{i + headerCol + 1}:U{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-                    workSheet.Cells[$"W{i + headerCol + 1}:X{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-
-                    workSheet.Cells[$"H{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Numberformat.Format = "#,##0";
-                    
-                    workSheet.Cells[$"A{i + headerCol + 1}:A{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"B{i + headerCol + 1}:B{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"C{i + headerCol + 1}:C{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"D{i + headerCol + 1}:D{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"E{i + headerCol + 1}:E{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"F{i + headerCol + 1}:F{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"G{i + headerCol + 1}:G{i + headerCol + 2}"].Merge = true;
-                    workSheet.Cells[$"V{i + headerCol + 1}:V{i + headerCol + 2}"].Merge = true;
-
-                    workSheet.Cells[$"A{i + headerCol + 1}"].Value = i + 1;
-                    workSheet.Cells[$"B{i + headerCol + 1}"].Value = list[i].Nama;
-                    workSheet.Cells[$"C{i + headerCol + 1}"].Value = list[i].Nip;
-                    workSheet.Cells[$"D{i + headerCol + 1}"].Value = list[i].KdPangkat;
-
-                    workSheet.Cells[$"H{i + headerCol + 1}"].Value = list[i].PaguTppBk;
-                    workSheet.Cells[$"H{i + headerCol + 2}"].Value = list[i].PaguTppKk;
-
-                    workSheet.Cells[$"I{i + headerCol + 1}"].Value = list[i].PiwpBk;
-                    workSheet.Cells[$"I{i + headerCol + 2}"].Value = list[i].PiwpKk;
-
-                    workSheet.Cells[$"J{i + headerCol + 1}"].Value = list[i].KinerjaMaksBk;
-                    workSheet.Cells[$"J{i + headerCol + 2}"].Value = list[i].KinerjaMaksKk;
-
-                    workSheet.Cells[$"K{i + headerCol + 1}"].Value = list[i].CapaiKinerjaBk;
-                    workSheet.Cells[$"K{i + headerCol + 2}"].Value = list[i].CapaiKinerjaKk;
-
-                    workSheet.Cells[$"L{i + headerCol + 1}"].Value = list[i].NilaiKinerjaBk;
-                    workSheet.Cells[$"L{i + headerCol + 2}"].Value = list[i].NilaiKinerjaKk;
-
-                    workSheet.Cells[$"M{i + headerCol + 1}"].Value = list[i].KehadiranMaksBk;
-                    workSheet.Cells[$"M{i + headerCol + 2}"].Value = list[i].KehadiranMaksKk;
-
-                    workSheet.Cells[$"N{i + headerCol + 1}"].Value = list[i].PotonganPercentKehadiranBk;
-                    workSheet.Cells[$"N{i + headerCol + 2}"].Value = list[i].PotonganPercentKehadiranKk;
-
-                    workSheet.Cells[$"O{i + headerCol + 1}"].Value = list[i].RpKehadiranBk;
-                    workSheet.Cells[$"O{i + headerCol + 2}"].Value = list[i].RpKehadiranKk;
-
-                    workSheet.Cells[$"P{i + headerCol + 1}"].Value = list[i].NilaiKehadiranBk;
-                    workSheet.Cells[$"P{i + headerCol + 2}"].Value = list[i].NilaiKehadiranKk;
-
-                    workSheet.Cells[$"Q{i + headerCol + 1}"].Value = list[i].BpjsBk;
-                    workSheet.Cells[$"Q{i + headerCol + 2}"].Value = list[i].BpjsKk;
-
-                    workSheet.Cells[$"R{i + headerCol + 1}"].Value = list[i].Tpp_BrutoBk;
-                    workSheet.Cells[$"R{i + headerCol + 2}"].Value = list[i].Tpp_BrutoKk;
-
-                    workSheet.Cells[$"S{i + headerCol + 1}"].Value = list[i].PphBk;
-                    workSheet.Cells[$"S{i + headerCol + 2}"].Value = list[i].PphKk;
-
-                    workSheet.Cells[$"T{i + headerCol + 1}"].Value = list[i].Tpp_NettoBk;
-                    workSheet.Cells[$"T{i + headerCol + 2}"].Value = list[i].Tpp_NettoKk;
-
-                    workSheet.Cells[$"U{i + headerCol + 1}"].Value = list[i].Nilai_Bruto_SpmBk;
-                    workSheet.Cells[$"U{i + headerCol + 2}"].Value = list[i].Nilai_Bruto_SpmKk;
-
-                    workSheet.Cells[$"V{i + headerCol + 1}"].Value = list[i].Norek;
-
-                    workSheet.Cells[$"W{i + headerCol + 1}"].Value = list[i].IuranBk;
-                    workSheet.Cells[$"W{i + headerCol + 2}"].Value = list[i].IuranKk;
-                    //end baris isi tabel
-                }
+                var workSheet = CreateFileWithExcelFormat(excel, tglGaji, bulan, tahun, nipKepalaDinas, nipKasubag);
 
                 var saveFileDialog = new SaveFileDialog
                 {
@@ -618,9 +448,337 @@ namespace NewAppTpp.Services
             }
         }
 
+        private static ExcelWorksheet CreateFileWithExcelFormat(ExcelPackage excel, string tglGaji, string bulan, string tahun, string nipKepalaDinas, string nipKasubag)
+        {
+            var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
+            workSheet.TabColor = System.Drawing.Color.Black;
+            workSheet.PrinterSettings.PaperSize = ePaperSize.A4;
+            workSheet.PrinterSettings.Orientation = eOrientation.Landscape;
+            workSheet.PrinterSettings.FitToPage = true;
+            workSheet.PrinterSettings.FitToWidth = 1;
+            workSheet.Cells.Style.Font.Name = "Times New Roman";
+            workSheet.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            workSheet.Column(1).Width = 5;
+            workSheet.Column(2).Width = 20;
+            workSheet.Column(3).Width = 15;
+            //title style
+
+            //baris pertama
+            workSheet.Row(1).Style.Font.Size = 12;
+            workSheet.Cells["A1:X1"].Merge = true;
+
+            workSheet.Cells["A1"].Value = "LAPORAN PEMBAYARAN TAMBAHAN PENGHASILAN PEGAWAI";
+            //end baris pertama
+
+            //baris dua
+            workSheet.Row(2).Style.Font.Size = 12;
+            workSheet.Cells["A2:X2"].Merge = true;
+
+            workSheet.Cells["A2"].Value = "DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL";
+            //end baris dua
+
+            //baris tiga
+            workSheet.Row(3).Style.Font.Size = 12;
+            workSheet.Cells["A3:X3"].Merge = true;
+
+            workSheet.Cells["A3"].Value = $"{bulan.ToUpper()} {tahun}";
+            //end baris tiga
+
+            //baris lima
+            workSheet.Row(5).Style.Font.Size = 8;
+            workSheet.Row(5).Style.Font.Name = "Times New Roman";
+            workSheet.Row(5).Style.Font.Bold = true;
+            workSheet.Row(5).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(5).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            workSheet.Row(5).Style.WrapText = true;
+            workSheet.Cells["A5:X7"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells["A5:X7"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells["A5:X7"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells["A5:X7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            workSheet.Cells["A5:A7"].Merge = true;
+            workSheet.Cells["B5:B7"].Merge = true;
+            workSheet.Cells["C5:C7"].Merge = true;
+            workSheet.Cells["D5:D7"].Merge = true;
+            workSheet.Cells["E5:E7"].Merge = true;
+            workSheet.Cells["F5:F7"].Merge = true;
+            workSheet.Cells["G5:G7"].Merge = true;
+            workSheet.Cells["H5:H7"].Merge = true;
+            workSheet.Cells["I5:I7"].Merge = true;
+            workSheet.Cells["J5:P5"].Merge = true;
+            workSheet.Cells["Q5:Q7"].Merge = true;
+            workSheet.Cells["R5:R7"].Merge = true;
+            workSheet.Cells["S5:S7"].Merge = true;
+            workSheet.Cells["T5:T7"].Merge = true;
+            workSheet.Cells["U5:U7"].Merge = true;
+            workSheet.Cells["V5:V7"].Merge = true;
+            workSheet.Cells["W5:W7"].Merge = true;
+            workSheet.Cells["X5:X7"].Merge = true;
+
+            workSheet.Cells["A5"].Value = "NO";
+            workSheet.Cells["B5"].Value = "NAMA";
+            workSheet.Cells["C5"].Value = "NIP";
+            workSheet.Cells["D5"].Value = "GOL";
+            workSheet.Cells["E5"].Value = "JABATAN";
+            workSheet.Cells["F5"].Value = "JENIS JABATAN SESUAI PERPUB TPP";
+            workSheet.Cells["G5"].Value = "KELAS JABATAN";
+            workSheet.Cells["H5"].Value = "PAGU TPP = Beban Kerja + Kondisi Kerja";
+            workSheet.Cells["I5"].Value = "PIWP";
+            workSheet.Cells["J5"].Value = "BESARAN TPP";
+            workSheet.Cells["Q5"].Value = "BPJS 1%";
+            workSheet.Cells["R5"].Value = "TPP BRUTO";
+            workSheet.Cells["S5"].Value = "PPH PSL 21";
+            workSheet.Cells["T5"].Value = "TPP NETTO";
+            workSheet.Cells["U5"].Value = "NILAI BRUTO SPM";
+            workSheet.Cells["V5"].Value = "NO.REK";
+            workSheet.Cells["W5"].Value = "IURAN 4% (DIBAYAR OLEH PEMDA)";
+            workSheet.Cells["X5"].Value = "KETERANGAN";
+            //end baris lima
+
+            //baris enam
+            workSheet.Row(6).Style.Font.Size = 8;
+            workSheet.Row(6).Style.Font.Name = "Times New Roman";
+            workSheet.Row(6).Style.Font.Bold = true;
+            workSheet.Row(6).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(6).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            workSheet.Cells["J6:L6"].Merge = true;
+            workSheet.Cells["M6:P6"].Merge = true;
+
+            workSheet.Cells["J6"].Value = "KINERJA 60%";
+            workSheet.Cells["M6"].Value = "KINERJA 40%";
+            //end baris enam
+
+            //baris tujuh
+            workSheet.Row(7).Height = 60;
+            workSheet.Row(7).Style.Font.Size = 8;
+            workSheet.Row(7).Style.Font.Name = "Times New Roman";
+            workSheet.Row(7).Style.Font.Bold = true;
+            workSheet.Row(7).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(7).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            workSheet.Row(7).Style.WrapText = true;
+
+            workSheet.Cells["J7"].Value = "KINERJA MAKS (Rp)";
+            workSheet.Cells["K7"].Value = "CAPAIAN KINERJA (%)";
+            workSheet.Cells["L7"].Value = "NILAI KINERJA (Rp)";
+            workSheet.Cells["M7"].Value = "KEHADIRAN MAKS (Rp)";
+            workSheet.Cells["N7"].Value = "POTONGAN KEHADIRAN (%)";
+            workSheet.Cells["O7"].Value = "POTONGAN KEHADIRAN (Rp)";
+            workSheet.Cells["P7"].Value = "NILAI KEHADIRAN (Rp)";
+            //end baris enam
+
+            List<DataExportModel> list = GetExportableData(tglGaji);
+
+            int totalPagu, totalNilaiKehadiran, totalBpjs, totalTppBruto, totalPph, totalTppNetto, totalNilaiBrutoSpm, totalIuran, totalBrutoSpmBk, totalBrutoSpmKk;
+
+            CalculateSumOfData(list, out totalPagu, out totalNilaiKehadiran, out totalBpjs, out totalTppBruto, out totalPph, out totalTppNetto, out totalNilaiBrutoSpm, out totalIuran, out totalBrutoSpmBk, out totalBrutoSpmKk);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                int headerCol = i + 7;
+
+                //baris isi tabel
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Font.Name = "Times New Roman";
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Font.Size = 7;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.WrapText = true;
+
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[$"A{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+                workSheet.Cells[$"B{i + headerCol + 1}:C{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                workSheet.Cells[$"H{i + headerCol + 1}:J{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                workSheet.Cells[$"L{i + headerCol + 1}:M{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                workSheet.Cells[$"O{i + headerCol + 1}:U{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                workSheet.Cells[$"W{i + headerCol + 1}:X{i + headerCol + 2}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+                workSheet.Cells[$"H{i + headerCol + 1}:X{i + headerCol + 2}"].Style.Numberformat.Format = "#,##0";
+
+                workSheet.Cells[$"A{i + headerCol + 1}:A{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"B{i + headerCol + 1}:B{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"C{i + headerCol + 1}:C{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"D{i + headerCol + 1}:D{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"E{i + headerCol + 1}:E{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"F{i + headerCol + 1}:F{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"G{i + headerCol + 1}:G{i + headerCol + 2}"].Merge = true;
+                workSheet.Cells[$"V{i + headerCol + 1}:V{i + headerCol + 2}"].Merge = true;
+
+                workSheet.Cells[$"A{i + headerCol + 1}"].Value = i + 1;
+                workSheet.Cells[$"B{i + headerCol + 1}"].Value = list[i].Nama;
+                workSheet.Cells[$"C{i + headerCol + 1}"].Value = list[i].Nip;
+                workSheet.Cells[$"D{i + headerCol + 1}"].Value = list[i].KdPangkat;
+
+                workSheet.Cells[$"H{i + headerCol + 1}"].Value = list[i].PaguTppBk;
+                workSheet.Cells[$"H{i + headerCol + 2}"].Value = list[i].PaguTppKk;
+
+                workSheet.Cells[$"I{i + headerCol + 1}"].Value = list[i].PiwpBk;
+                workSheet.Cells[$"I{i + headerCol + 2}"].Value = list[i].PiwpKk;
+
+                workSheet.Cells[$"J{i + headerCol + 1}"].Value = list[i].KinerjaMaksBk;
+                workSheet.Cells[$"J{i + headerCol + 2}"].Value = list[i].KinerjaMaksKk;
+
+                workSheet.Cells[$"K{i + headerCol + 1}"].Value = list[i].CapaiKinerjaBk;
+                workSheet.Cells[$"K{i + headerCol + 2}"].Value = list[i].CapaiKinerjaKk;
+
+                workSheet.Cells[$"L{i + headerCol + 1}"].Value = list[i].NilaiKinerjaBk;
+                workSheet.Cells[$"L{i + headerCol + 2}"].Value = list[i].NilaiKinerjaKk;
+
+                workSheet.Cells[$"M{i + headerCol + 1}"].Value = list[i].KehadiranMaksBk;
+                workSheet.Cells[$"M{i + headerCol + 2}"].Value = list[i].KehadiranMaksKk;
+
+                workSheet.Cells[$"N{i + headerCol + 1}"].Value = list[i].PotonganPercentKehadiranBk;
+                workSheet.Cells[$"N{i + headerCol + 2}"].Value = list[i].PotonganPercentKehadiranKk;
+
+                workSheet.Cells[$"O{i + headerCol + 1}"].Value = list[i].RpKehadiranBk;
+                workSheet.Cells[$"O{i + headerCol + 2}"].Value = list[i].RpKehadiranKk;
+
+                workSheet.Cells[$"P{i + headerCol + 1}"].Value = list[i].NilaiKehadiranBk;
+                workSheet.Cells[$"P{i + headerCol + 2}"].Value = list[i].NilaiKehadiranKk;
+
+                workSheet.Cells[$"Q{i + headerCol + 1}"].Value = list[i].BpjsBk;
+                workSheet.Cells[$"Q{i + headerCol + 2}"].Value = list[i].BpjsKk;
+
+                workSheet.Cells[$"R{i + headerCol + 1}"].Value = list[i].Tpp_BrutoBk;
+                workSheet.Cells[$"R{i + headerCol + 2}"].Value = list[i].Tpp_BrutoKk;
+
+                workSheet.Cells[$"S{i + headerCol + 1}"].Value = list[i].PphBk;
+                workSheet.Cells[$"S{i + headerCol + 2}"].Value = list[i].PphKk;
+
+                workSheet.Cells[$"T{i + headerCol + 1}"].Value = list[i].Tpp_NettoBk;
+                workSheet.Cells[$"T{i + headerCol + 2}"].Value = list[i].Tpp_NettoKk;
+
+                workSheet.Cells[$"U{i + headerCol + 1}"].Value = list[i].Nilai_Bruto_SpmBk;
+                workSheet.Cells[$"U{i + headerCol + 2}"].Value = list[i].Nilai_Bruto_SpmKk;
+
+                workSheet.Cells[$"V{i + headerCol + 1}"].Value = list[i].Norek;
+
+                workSheet.Cells[$"W{i + headerCol + 1}"].Value = list[i].IuranBk;
+                workSheet.Cells[$"W{i + headerCol + 2}"].Value = list[i].IuranKk;
+                //end baris isi tabel
+            }
+
+            //baris jumlah
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Font.Name = "Times New Roman";
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Font.Size = 7;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.WrapText = true;
+
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            workSheet.Cells[$"A{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            workSheet.Cells[$"A{list.Count * 2 + 8}:G{list.Count * 2 + 8}"].Merge = true;
+
+            workSheet.Cells[$"H{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            workSheet.Cells[$"H{list.Count * 2 + 8}:X{list.Count * 2 + 8}"].Style.Numberformat.Format = "#,##0";
+
+            workSheet.Cells[$"A{list.Count * 2 + 8}"].Value = "JUMLAH";
+            workSheet.Cells[$"H{list.Count * 2 + 8}"].Value = totalPagu;
+            workSheet.Cells[$"P{list.Count * 2 + 8}"].Value = totalNilaiKehadiran;
+            workSheet.Cells[$"Q{list.Count * 2 + 8}"].Value = totalBpjs;
+            workSheet.Cells[$"R{list.Count * 2 + 8}"].Value = totalTppBruto;
+            workSheet.Cells[$"S{list.Count * 2 + 8}"].Value = totalPph;
+            workSheet.Cells[$"T{list.Count * 2 + 8}"].Value = totalTppNetto;
+            workSheet.Cells[$"U{list.Count * 2 + 8}"].Value = totalNilaiBrutoSpm;
+            workSheet.Cells[$"W{list.Count * 2 + 8}"].Value = totalIuran;
+            //end baris jumlah
+
+            //baris tanggal
+            CultureInfo ci = new("id-ID");
+
+            workSheet.Cells[$"A{list.Count * 2 + 10}:X{list.Count * 2 + 10}"].Style.Font.Name = "Times New Roman";
+            workSheet.Cells[$"A{list.Count * 2 + 10}:X{list.Count * 2 + 10}"].Style.Font.Size = 10;
+            workSheet.Cells[$"A{list.Count * 2 + 10}:X{list.Count * 2 + 10}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            workSheet.Cells[$"A{list.Count * 2 + 10}:X{list.Count * 2 + 10}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            workSheet.Cells[$"U{list.Count * 2 + 10}"].Value = $"Bulukumba, {DateTime.Now.ToString("dd MMMM yyyy", ci)}";
+            //end baris tanggal
+
+            //baris tanda tangan
+            workSheet.Cells[$"A{list.Count * 2 + 12}:X{list.Count * 2 + 16}"].Style.Font.Name = "Times New Roman";
+            workSheet.Cells[$"A{list.Count * 2 + 12}:X{list.Count * 2 + 16}"].Style.Font.Size = 10;
+            workSheet.Cells[$"A{list.Count * 2 + 12}:X{list.Count * 2 + 16}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Cells[$"A{list.Count * 2 + 12}:X{list.Count * 2 + 16}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            workSheet.Cells[$"B{list.Count * 2 + 15}"].Style.Font.UnderLine = true;
+            workSheet.Cells[$"K{list.Count * 2 + 15}"].Style.Font.UnderLine = true;
+            workSheet.Cells[$"T{list.Count * 2 + 15}"].Style.Font.UnderLine = true;
+
+            workSheet.Cells[$"B{list.Count * 2 + 12}:D{list.Count * 2 + 12}"].Merge = true;
+            workSheet.Cells[$"B{list.Count * 2 + 15}:D{list.Count * 2 + 15}"].Merge = true;
+            workSheet.Cells[$"B{list.Count * 2 + 16}:D{list.Count * 2 + 16}"].Merge = true;
+
+            workSheet.Cells[$"K{list.Count * 2 + 12}:N{list.Count * 2 + 12}"].Merge = true;
+            workSheet.Cells[$"K{list.Count * 2 + 15}:N{list.Count * 2 + 15}"].Merge = true;
+            workSheet.Cells[$"K{list.Count * 2 + 16}:N{list.Count * 2 + 16}"].Merge = true;
+
+            workSheet.Cells[$"T{list.Count * 2 + 12}:W{list.Count * 2 + 12}"].Merge = true;
+            workSheet.Cells[$"T{list.Count * 2 + 15}:W{list.Count * 2 + 15}"].Merge = true;
+            workSheet.Cells[$"T{list.Count * 2 + 16}:W{list.Count * 2 + 16}"].Merge = true;
+
+            workSheet.Cells[$"B{list.Count * 2 + 12}"].Value = "KEPALA DINAS";
+            workSheet.Cells[$"B{list.Count * 2 + 15}"].Value = $"{GetPegawaiName(list, nipKepalaDinas)}";
+            workSheet.Cells[$"B{list.Count * 2 + 16}"].Value = $"NIP.: {nipKepalaDinas}";
+
+            workSheet.Cells[$"K{list.Count * 2 + 12}"].Value = "BENDAHARA PENGELUARAN";
+            workSheet.Cells[$"K{list.Count * 2 + 15}"].Value = "ANDI HIKMAWATI";
+            workSheet.Cells[$"K{list.Count * 2 + 16}"].Value = "NIP.:";
+
+            workSheet.Cells[$"T{list.Count * 2 + 12}"].Value = "KASUBAG. UMUM & KEPEGAWAIAN";
+            workSheet.Cells[$"T{list.Count * 2 + 15}"].Value = $"{GetPegawaiName(list, nipKasubag)}";
+            workSheet.Cells[$"T{list.Count * 2 + 16}"].Value = $"NIP.: {nipKasubag}";
+            //end baris tanda tangan
+
+            //baris catatan
+            workSheet.Cells[$"A{list.Count * 2 + 21}:X{list.Count * 2 + 23}"].Style.Font.Name = "Times New Roman";
+            workSheet.Cells[$"A{list.Count * 2 + 21}:X{list.Count * 2 + 23}"].Style.Font.Size = 8;
+            workSheet.Cells[$"A{list.Count * 2 + 21}:X{list.Count * 2 + 23}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            workSheet.Cells[$"A{list.Count * 2 + 21}:X{list.Count * 2 + 23}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            workSheet.Cells[$"A{list.Count * 2 + 21}"].Style.Font.UnderLine = true;
+            workSheet.Cells[$"A{list.Count * 2 + 21}"].Style.Font.Bold = true;
+
+            workSheet.Cells[$"A{list.Count * 2 + 22}:X{list.Count * 2 + 23}"].Style.Numberformat.Format = "#,##0";
+
+            workSheet.Cells[$"A{list.Count * 2 + 21}"].Value = "Catatan :";
+            workSheet.Cells[$"A{list.Count * 2 + 22}"].Value = "- Total Bruto SPM Beban Kerja : ";
+            workSheet.Cells[$"C{list.Count * 2 + 22}"].Value = totalBrutoSpmBk;
+            workSheet.Cells[$"A{list.Count * 2 + 23}"].Value = "- Total Bruto SPM Kondisi Kerja : ";
+            workSheet.Cells[$"C{list.Count * 2 + 23}"].Value = totalBrutoSpmKk;
+            //end baris catatan
+
+            return workSheet;
+        }
+
+        private static void CalculateSumOfData(List<DataExportModel> list, out int totalPagu, out int totalNilaiKehadiran, out int totalBpjs, out int totalTppBruto, out int totalPph, out int totalTppNetto, out int totalNilaiBrutoSpm, out int totalIuran, out int totalBrutoSpmBk, out int totalBrutoSpmKk)
+        {
+            totalPagu = totalNilaiKehadiran = totalBpjs = totalTppBruto = totalPph = totalTppNetto = totalNilaiBrutoSpm = totalIuran = totalBrutoSpmBk = totalBrutoSpmKk = 0;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                totalPagu += list[i].PaguTppBk + list[i].PaguTppKk;
+                totalNilaiKehadiran += list[i].NilaiKehadiranBk + list[i].NilaiKehadiranKk;
+                totalBpjs += list[i].BpjsBk + list[i].BpjsKk;
+                totalTppBruto += list[i].Tpp_BrutoBk + list[i].Tpp_BrutoKk;
+                totalPph += list[i].PphBk + list[i].PphKk;
+                totalTppNetto += list[i].Tpp_NettoBk + list[i].Tpp_NettoKk;
+                totalNilaiBrutoSpm += list[i].Nilai_Bruto_SpmBk + list[i].Nilai_Bruto_SpmKk;
+                totalIuran += list[i].IuranBk + list[i].IuranKk;
+                totalBrutoSpmBk += list[i].Nilai_Bruto_SpmBk;
+                totalBrutoSpmKk += list[i].Nilai_Bruto_SpmKk;
+            }
+        }
+
         private static List<DataExportModel> GetExportableData(string tglGaji)
         {
-            CalculateKinerja();
             using var connectionData = OpenConnection();
             using var connectionBk = OpenConnection();
             using var ConnectionKk = OpenConnection();
@@ -715,6 +873,21 @@ namespace NewAppTpp.Services
             {
                 Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
                 return [];
+            }
+        }
+
+        private static string GetPegawaiName(List<DataExportModel> pegawaiList, string nip)
+        {
+            DataExportModel selectedPegawai = pegawaiList.FirstOrDefault(p => p.Nip == nip);
+
+            if (selectedPegawai != null)
+            {
+                return selectedPegawai.Nama;
+            }
+            else
+            {
+                Growl.Error($"Pegawai Tidak Ditemukan!", "ErrorMsg");
+                return "";
             }
         }
     }
