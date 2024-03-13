@@ -93,6 +93,28 @@ namespace NewAppTpp.MVVM.ViewModel
             }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged(nameof(IsLoading));
+            }
+        }
+
+        private bool _isDataGridVisible;
+        public bool IsDataGridVisible
+        {
+            get { return _isDataGridVisible; }
+            set
+            {
+                _isDataGridVisible = value;
+                RaisePropertyChanged(nameof(IsDataGridVisible));
+            }
+        }
+
         private Dialog DataPegawaiDialog { get; set; } = new Dialog();
 
         public ICommand SubmitSearchCommand { get; }
@@ -102,19 +124,25 @@ namespace NewAppTpp.MVVM.ViewModel
 
         public KelolaDataViewModel()
         {
+            IsLoading = false;
+            IsDataGridVisible = false;
+
             SubmitSearchCommand = new SimpleRelayCommand(new Action(InitializeDataPegawaiList));
-            SearchPegawaiCommand = new SimpleRelayCommand(new Action(SearchPegawai));
+            SearchPegawaiCommand = new RelayCommand(new Action<object>(SearchPegawai), new Func<object, bool>(CanSearch));
             EditPegawaiCommand = new SimpleRelayCommand(new Action(EditPegawai));
             DeletePegawaiCommand = new SimpleRelayCommand(new Action(OpenConfirmationPopup));
         }
 
-        private void InitializeDataPegawaiList()
+        private async void InitializeDataPegawaiList()
         {
+            IsLoading = true;
+            IsDataGridVisible = false;
+
             try
             {
                 string tglGaji = $"{Tahun}-{ConvertBulanToNumber()}-01".Trim();
 
-                var pegawaiData = DataPegawaiService.GetAllDataPegawai(tglGaji);
+                var pegawaiData = await Task.Run(() => DataPegawaiService.GetAllDataPegawai(tglGaji));
                 var filteredPegawaiData = string.IsNullOrEmpty(SearchText) ? pegawaiData : pegawaiData.Where(data => data.Nama.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || data.Nip.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
                 MaxPageCount = Convert.ToInt32(Math.Ceiling((double)filteredPegawaiData.Count() / 10.0));
@@ -128,6 +156,9 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             finally
             {
+                IsLoading = false;
+                IsDataGridVisible = true;
+
                 CloseDialog();
             }
         }
@@ -152,7 +183,12 @@ namespace NewAppTpp.MVVM.ViewModel
             };
         }
 
-        private void SearchPegawai()
+        private bool CanSearch(object arg)
+        {
+            return !string.IsNullOrEmpty(Tahun) && !string.IsNullOrEmpty(Bulan);
+        }
+
+        private void SearchPegawai(object obj)
         {
             InitializeDataPegawaiList();
         }

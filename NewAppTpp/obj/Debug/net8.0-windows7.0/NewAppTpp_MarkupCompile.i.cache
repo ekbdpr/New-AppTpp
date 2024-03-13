@@ -12,9 +12,9 @@ TRACE;Core;DEBUG;NET;NET8_0;NETCOREAPP
 D:\UNITAMA\Semester 3\Pemrograman 2\Tugas\NewAppTpp\NewAppTpp\App.xaml
 16-1441975559
 
-41-1474908832
+42-1370784550
 2161898742917
 Assets\CustomControls\BindablePasswordBox.xaml;Assets\Styles\MessageBoxCustomStyle.xaml;MVVM\View\AddUserAccessPopup.xaml;MVVM\View\Bendahara.xaml;MVVM\View\ConfirmationPopup.xaml;MVVM\View\EditBendahara.xaml;MVVM\View\EditPegawaiPopup.xaml;MVVM\View\EditUserAccessPopup.xaml;MVVM\View\Home.xaml;MVVM\View\InputDataBatch.xaml;MVVM\View\KelolaData.xaml;MVVM\View\LihatLaporan.xaml;MVVM\View\Login.xaml;MVVM\View\MainWindow.xaml;MVVM\View\UserManager.xaml;Properties\DesignTimeResources.xaml;
 
-False
+True
 

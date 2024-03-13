@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:custompasswordbox="clr-namespace:NewAppTpp.Assets.CustomControls"
+    xmlns:cv="clr-namespace:NewAppTpp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
@@ -18,6 +19,10 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <hc:Window.Resources>
+        <cv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </hc:Window.Resources>
+
     <hc:Window.DataContext>
         <vm:LoginViewModel />
     </hc:Window.DataContext>
@@ -25,7 +30,7 @@
     <hc:SimplePanel>
 
         <!--  loading circle  -->
-        <hc:LoadingCircle Visibility="{Binding IsLoading}" />
+        <hc:LoadingCircle Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
         <!--  end loading circle  -->
 
         <hc:FlexPanel

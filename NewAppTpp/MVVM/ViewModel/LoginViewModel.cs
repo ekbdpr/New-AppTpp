@@ -56,11 +56,15 @@ namespace NewAppTpp.MVVM.ViewModel
             }
         }
 
-        private Visibility _isLoading = Visibility.Collapsed;
-        public Visibility IsLoading
+        private bool _isLoading;
+        public bool IsLoading
         {
             get { return _isLoading; }
-            set { _isLoading = value; RaisePropertyChanged(nameof(IsLoading)); }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged(nameof(IsLoading));
+            }
         }
 
         private bool _isWindowActive = true;
@@ -88,7 +92,7 @@ namespace NewAppTpp.MVVM.ViewModel
         {
             try
             {
-                IsLoading = Visibility.Visible;
+                IsLoading = true;
                 IsWindowActive = false;
 
                 if (await Task.Run(() => IsValidUser()))
@@ -107,7 +111,7 @@ namespace NewAppTpp.MVVM.ViewModel
             }
             finally
             {
-                IsLoading = Visibility.Collapsed;
+                IsLoading = false;
                 IsWindowActive = true;
             }
         }
