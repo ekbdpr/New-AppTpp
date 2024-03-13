@@ -8,7 +8,6 @@ using NewAppTpp.Services;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NewAppTpp.MVVM.ViewModel
@@ -36,25 +35,25 @@ namespace NewAppTpp.MVVM.ViewModel
             set { _fileName = value; RaisePropertyChanged(nameof(FileName)); }
         }
 
-        private Visibility _loadingIndicatorVisibility;
-        public Visibility LoadingIndicatorVisibility
+        private bool _isLoading;
+        public bool IsLoading
         {
-            get { return _loadingIndicatorVisibility; }
-            set { _loadingIndicatorVisibility = value; RaisePropertyChanged(nameof(LoadingIndicatorVisibility)); }
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(nameof(IsLoading)); }
         }
 
-        private Visibility _successIndicatorVisibility;
-        public Visibility SuccessIndicatorVisibility
+        private bool _isSuccess;
+        public bool IsSuccess
         {
-            get { return _successIndicatorVisibility; }
-            set { _successIndicatorVisibility = value; RaisePropertyChanged(nameof(SuccessIndicatorVisibility)); }
+            get { return _isSuccess; }
+            set { _isSuccess = value; RaisePropertyChanged(nameof(IsSuccess)); }
         }
 
-        private Visibility _errorIndicatorVisibility;
-        public Visibility ErrorIndicatorVisibility
+        private bool _isError;
+        public bool IsError
         {
-            get { return _errorIndicatorVisibility; }
-            set { _errorIndicatorVisibility = value; RaisePropertyChanged(nameof(ErrorIndicatorVisibility)); }
+            get { return _isError; }
+            set { _isError = value; RaisePropertyChanged(nameof(IsError)); }
         }
 
         private Dialog InputDataBatchDialog { get; set; } = new Dialog();
@@ -83,9 +82,9 @@ namespace NewAppTpp.MVVM.ViewModel
 
         private void InitialIconState()
         {
-            LoadingIndicatorVisibility = Visibility.Collapsed;
-            SuccessIndicatorVisibility = Visibility.Collapsed;
-            ErrorIndicatorVisibility = Visibility.Collapsed;
+            IsLoading = false;
+            IsSuccess = false;
+            IsError = false;
         }
 
         private void ChooseFile()
@@ -161,7 +160,7 @@ namespace NewAppTpp.MVVM.ViewModel
             try
             {
                 InitialIconState();
-                LoadingIndicatorVisibility = Visibility.Visible;
+                IsLoading = true;
 
                 string tglGaji = $"{Tahun}-{ConvertBulanToNumber()}-01".Trim();
 
@@ -170,17 +169,17 @@ namespace NewAppTpp.MVVM.ViewModel
                 DeleteFile();
                 InitialFileState();
 
-                SuccessIndicatorVisibility = Visibility.Visible;
+                IsSuccess = true;
             }
             catch (DuplicateDataException ex)
             {
                 Growl.Error($"Error during execute: {ex.Message}", "ErrorMsg");
 
-                ErrorIndicatorVisibility = Visibility.Visible;
+                IsError = true;
             }
             finally
             {
-                LoadingIndicatorVisibility = Visibility.Collapsed;
+                IsLoading = false;
             }
         }
 

@@ -2,6 +2,7 @@
     x:Class="NewAppTpp.MVVM.View.InputDataBatch"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cv="clr-namespace:NewAppTpp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:NewAppTpp.MVVM.View"
@@ -10,6 +11,10 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <cv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
 
     <UserControl.DataContext>
         <vm:InputDataBatchViewModel />
@@ -125,7 +130,7 @@
                 <hc:SimplePanel Margin="20,0,0,0">
 
                     <!--  import indicator  -->
-                    <hc:LoadingCircle Height="30" Visibility="{Binding LoadingIndicatorVisibility}" />
+                    <hc:LoadingCircle Height="30" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <!--  end import indicator  -->
 
                     <!--  success indicator  -->
@@ -135,10 +140,10 @@
                         FontSize="{DynamicResource HeadFontSize}"
                         Foreground="{DynamicResource SuccessBrush}"
                         Text="&#9989;"
-                        Visibility="{Binding SuccessIndicatorVisibility}" />
+                        Visibility="{Binding IsSuccess, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <!--  end success indicator  -->
 
-                    <!--  failed indicator  -->
+                    <!--  error indicator  -->
                     <hc:SimpleText
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -146,8 +151,8 @@
                         FontWeight="ExtraBold"
                         Foreground="{DynamicResource DangerBrush}"
                         Text="&#10060;"
-                        Visibility="{Binding ErrorIndicatorVisibility}" />
-                    <!--  end failed indicator  -->
+                        Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <!--  end error indicator  -->
 
                 </hc:SimplePanel>
                 <!--  end indicators container  -->
