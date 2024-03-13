@@ -1,5 +1,4 @@
-﻿using AppTpp.Services;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Tools;
 using HandyControl.Tools.Command;
 using NewAppTpp.MVVM.Model;
@@ -8,6 +7,7 @@ using NewAppTpp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NewAppTpp.MVVM.ViewModel
@@ -172,9 +172,9 @@ namespace NewAppTpp.MVVM.ViewModel
             KelolaDataMiddlewareService.Instance.OnDeleteData += DeletePegawai;
         }
 
-        private void DeletePegawai()
+        private async void DeletePegawai()
         {
-            DataPegawaiService.DeletePegawai(_selectedPegawai.Nip, _selectedPegawai.Nama);
+            await Task.Run(() => DataPegawaiService.DeletePegawai(_selectedPegawai.Nip, _selectedPegawai.Nama));
             InitializeDataPegawaiList();
         }
 

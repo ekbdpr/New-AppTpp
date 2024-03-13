@@ -91,24 +91,15 @@ namespace NewAppTpp.MVVM.ViewModel
                 IsLoading = Visibility.Visible;
                 IsWindowActive = false;
 
-                await Task.Run(() =>
+                if (await Task.Run(() => IsValidUser()))
                 {
-                    if (IsValidUser())
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            OpenMainWindow();
-                            CloseCurrentWindow();
-                        });
+                    OpenMainWindow();
+                    CloseCurrentWindow();
 
-                        return;
-                    }
+                    return;
+                }
 
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        ErrorMessage = "* Username atau Password Tidak Valid";
-                    });
-                });
+                ErrorMessage = "* Username atau Password Tidak Valid";
             }
             catch
             {
